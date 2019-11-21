@@ -21,3 +21,5 @@ Route.get('/', () => {
 })
 
 Route.resource("users", "UserController").apiOnly();
+
+Route.post('/sessions', 'SessionController.create')

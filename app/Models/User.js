@@ -15,8 +15,8 @@ class User extends Model {
      * it to the database.
      */
     this.addHook('beforeSave', async (userInstance) => {
-      if (userInstance.dirty.password) {
-        userInstance.password = await Hash.make(userInstance.password)
+      if (userInstance.dirty.nm_password) {
+        userInstance.nm_password = await Hash.make(userInstance.nm_password)
       }
     })
   }
@@ -34,6 +34,27 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
+
+  companies () {
+    return this.hasMany('App/Models/Company')
+  }
+
+  stores () {
+    return this.hasMany('App/Models/Store')
+  }
+
+  products () {
+    return this.hasMany('App/Models/Product')
+  }
+
+  userPermissions () {
+    return this.hasMany('App/Models/UserPermission')
+  }
+
+  reports () {
+    return this.hasMany('App/Models/Report')
+  }
+
 }
 
 module.exports = User
