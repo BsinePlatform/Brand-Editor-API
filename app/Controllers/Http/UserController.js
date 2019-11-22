@@ -102,6 +102,12 @@ class UserController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+
+    const user = await User.findOrFail(params.id)
+
+    await user.load('companies')
+
+    return user
   }
 
   /**
@@ -188,6 +194,13 @@ class UserController {
 
   }
 
+  companies () {
+    return this.hasMany('App/Models/Company')
+  }
+
+  stores () {
+      return this.hasMany('App/Models/Store')
+  }
 
 }
 

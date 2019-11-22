@@ -1,0 +1,45 @@
+JSON User
+
+{
+	"nm_username": "brunonobrega",
+	"nm_email": "bruno.nobrega@hotmail.com",
+	"nm_password": "Teste@123",
+	"nm_full_name": "Bruno Ferreira Nobrega",
+	"nr_document": "40175660816",
+	"nm_sex": "masculino",
+	"dt_born": "1992-06-09",
+	"nm_department": "TI",
+	"nm_position": "CTO",
+	"nr_ddi_phone_commercial": "55",
+	"nr_ddd_phone_commercial": "11",
+	"nr_phone_commercial": "988775352"
+}
+
+JSON Company
+
+{
+"nm_corporate_name": "Bsine",
+"nm_fantasy_name": "Bsine",
+"nr_cnpj": "00000000000",
+"nr_inscricao_estadual": "12345",
+"nr_ccm": "1234",
+"nm_initials": "BSN",
+"nm_responsible": "Alex",
+"nm_responsible_email": "alex@bsine.com.br",
+"nr_responsible_ddi": "55",
+"nr_responsible_ddd": "11",
+"nr_responsible_phone": "987654321",
+"nr_responsible_phone_extension": "",
+"dt_born": "2019-07-01",
+"nm_country": "Brazil",
+"nm_state": "São Paulo",
+"nm_city": "São Paulo",
+"nm_street": "Espirita",
+"nm_public_place": "Rua",
+"nm_neighborhood": "Liberdade",
+"nr_number": "175",
+"nr_zip_code": "0123489",
+"nr_ddi_phone_commercial": "55",
+"nr_ddd_phone_commercial": "11",
+"nr_phone_commercial": "987654321"
+}

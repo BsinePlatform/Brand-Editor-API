@@ -23,3 +23,7 @@ Route.get('/', () => {
 Route.resource("users", "UserController").apiOnly();
 
 Route.post('/sessions', 'SessionController.create')
+
+Route.resource('companies', 'CompanyController')
+  .apiOnly()
+  .middleware('auth')

@@ -36,7 +36,8 @@ class User extends Model {
   }
 
   companies () {
-    return this.hasMany('App/Models/Company')
+    // model_reference, this_column(on user), reference_column(column on model_reference) 
+    return this.hasMany('App/Models/Company', 'id', 'id_user_creator')
   }
 
   stores () {
