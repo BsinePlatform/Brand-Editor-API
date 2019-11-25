@@ -119,6 +119,7 @@ class CompanyController {
     const company = await Company.findOrFail(params.id)
 
     await company.load('users')
+    await company.load('stores')
 
     return company
   }
@@ -221,6 +222,10 @@ class CompanyController {
   
   user () {
     return this.belongsTo('App/Models/User')
+  }
+  
+  stores () {
+    return this.hasMany('App/Models/Store')
   }
 
 }

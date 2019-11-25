@@ -18,7 +18,7 @@ class StoresSchema extends Schema {
       table.bigint('nr_responsible_ddi').notNullable()
       table.bigint('nr_responsible_ddd').notNullable()
       table.bigint('nr_responsible_phone').notNullable()
-      table.bigint('nr_responsible_phone_extension').notNullable()
+      table.bigint('nr_responsible_phone_extension')
       table.date('dt_born').notNullable()
       table.string('nm_country', 254).notNullable()
       table.string('nm_state', 254).notNullable()

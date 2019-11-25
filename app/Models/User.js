@@ -41,7 +41,7 @@ class User extends Model {
   }
 
   stores () {
-    return this.hasMany('App/Models/Store')
+    return this.hasMany('App/Models/Store', 'id', 'id_user_creator')
   }
 
   products () {

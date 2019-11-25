@@ -27,3 +27,7 @@ Route.post('/sessions', 'SessionController.create')
 Route.resource('companies', 'CompanyController')
   .apiOnly()
   .middleware('auth')
+
+Route.resource('stores', 'StoreController')
+  .apiOnly()
+  .middleware('auth')

@@ -105,6 +105,7 @@ class UserController {
 
     const user = await User.findOrFail(params.id)
 
+    await user.load('stores')
     await user.load('companies')
 
     return user
@@ -199,7 +200,7 @@ class UserController {
   }
 
   stores () {
-      return this.hasMany('App/Models/Store')
+    return this.hasMany('App/Models/Store')
   }
 
 }
