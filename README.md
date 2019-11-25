@@ -1,3 +1,5 @@
+![Bsine](https://media.licdn.com/dms/image/C4D0BAQFUTNchzSNj8w/company-logo_200_200/0?e=2159024400&v=beta&t=MF5GR7GfUPwaTjjwSkIRPQtSnnV2XXFfsJErmPyc5KU)
+
 # Brand Editor API
 
 This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
