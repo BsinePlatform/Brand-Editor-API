@@ -20,7 +20,9 @@ Route.get('/', () => {
   return { 'boas-vindas': 'Teste!' }
 })
 
-Route.resource("users", "UserController").apiOnly();
+Route.resource("users", "UserController")
+  .apiOnly()
+  .middleware('auth')
 
 Route.post('/sessions', 'SessionController.create')
 
@@ -29,5 +31,13 @@ Route.resource('companies', 'CompanyController')
   .middleware('auth')
 
 Route.resource('stores', 'StoreController')
+  .apiOnly()
+  .middleware('auth')
+  
+Route.resource('departments', 'DepartmentController')
+  .apiOnly()
+  .middleware('auth')
+
+Route.resource('style', 'CompaniesCustomizationController')
   .apiOnly()
   .middleware('auth')

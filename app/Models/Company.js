@@ -14,8 +14,8 @@ class Company extends Model {
         return this.hasMany('App/Models/Store', 'id', 'id_company')
     }
 
-    companiesCustomizations () {
-        return this.hasOne('App/Models/CompaniesCustomization')
+    companiesCustomization () {
+        return this.hasOne('App/Models/CompaniesCustomization', 'id_company_customization', 'id')
     }
 
 }

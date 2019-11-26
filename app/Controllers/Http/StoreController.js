@@ -231,6 +231,10 @@ class StoreController {
     return this.belongsTo('App/Models/Company')
   }
 
+  departments () {
+    return this.hasMany('App/Models/Department')
+  }
+
 
 }
 

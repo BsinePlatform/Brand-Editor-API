@@ -120,6 +120,7 @@ class CompanyController {
 
     await company.load('users')
     await company.load('stores')
+    await company.load('companiesCustomization')
 
     return company
   }
@@ -220,12 +221,20 @@ class CompanyController {
     await company.delete()
   }
   
-  user () {
+  users () {
     return this.belongsTo('App/Models/User')
   }
   
   stores () {
     return this.hasMany('App/Models/Store')
+  }
+
+  departments () {
+    return this.hasMany('App/Models/Department')
+  }
+
+  companiesCustomization () {
+    return this.hasOne('App/Models/CompaniesCustomization')
   }
 
 }

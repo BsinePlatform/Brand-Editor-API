@@ -1,5 +1,7 @@
 'use strict'
 
+const Department = use ("App/Models/Department");
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -18,6 +20,9 @@ class DepartmentController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const departments = await Department.all()
+
+    return departments
   }
 
   /**
@@ -41,6 +46,15 @@ class DepartmentController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const data = request.only([
+      "nm_department",
+      "id_company",
+      "id_store"
+    ])
+
+    const department = await Department.create(data)
+
+    return department
   }
 
   /**
@@ -53,6 +67,12 @@ class DepartmentController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const department = await Department.findOrFail(params.id)
+
+    await department.load('stores')
+    await department.load('companies')
+
+    return department
   }
 
   /**
@@ -76,6 +96,18 @@ class DepartmentController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+
+    const department = await Department.findOrFail(params.id)
+    const data = request.only([
+      "nm_department",
+      "id_company",
+      "id_store"
+    ])
+
+    department.merge(data)
+    await department.save()
+
+    return department
   }
 
   /**
@@ -87,7 +119,20 @@ class DepartmentController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+
+    const department = await Department.findOrFail(params.id)
+
+    await department.delete()
   }
+
+  stores () {
+    return this.hasMany('App/Models/Store')
+  }
+
+  companies () {
+    return this.hasMany('App/Models/Company')
+  }
+  
 }
 
 module.exports = DepartmentController

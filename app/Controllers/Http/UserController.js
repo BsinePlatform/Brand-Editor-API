@@ -200,7 +200,7 @@ class UserController {
   }
 
   stores () {
-    return this.hasMany('App/Models/Store')
+    return this.hasOne('App/Models/Store')
   }
 
 }

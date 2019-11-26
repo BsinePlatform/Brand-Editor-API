@@ -43,6 +43,10 @@ class User extends Model {
   stores () {
     return this.hasMany('App/Models/Store', 'id', 'id_user_creator')
   }
+  
+  departments () {
+    return this.hasOne('App/Models/Department', 'id', 'id_department')
+  }
 
   products () {
     return this.hasMany('App/Models/Product')

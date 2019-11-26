@@ -4,6 +4,15 @@
 const Model = use('Model')
 
 class Department extends Model {
+
+    stores () {
+        return this.hasMany('App/Models/Store', 'id_store', 'id')
+    }
+
+    companies () {
+        return this.hasMany('App/Models/Company', 'id_company', 'id')
+    }
+
 }
 
 module.exports = Department

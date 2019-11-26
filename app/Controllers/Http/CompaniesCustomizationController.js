@@ -1,5 +1,7 @@
 'use strict'
 
+const CompaniesCustomization = use('App/Models/CompaniesCustomization')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -18,6 +20,10 @@ class CompaniesCustomizationController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+
+    const companiesCustomization = CompaniesCustomization.all()
+
+    return companiesCustomization
   }
 
   /**
@@ -41,6 +47,40 @@ class CompaniesCustomizationController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+
+    const data = request.only([
+      "path_img_logo",
+      "path_img_brand",
+      "path_img_background",
+      "nm_color_background",
+      "path_img_main_banner",
+      "path_img_second_banner",
+      "nr_style_header",
+      "nr_style_menu",
+      "nr_style_footer",
+      "nm_color_header",
+      "nm_color_menu",
+      "nm_color_footer",
+      "nm_slogan",
+      "nm_main_phrase",
+      "nm_second_phrase",
+      "nm_color_main",
+      "nm_color_second",
+      "nm_color_third",
+      "nm_font_main",
+      "nm_font_second",
+      "nm_font_third",
+      "nm_font_size_main",
+      "nm_font_size_second",
+      "nm_font_size_third",
+      "id_company",
+      "id_user_creator"
+    ])
+
+    const companyCustomization = await CompaniesCustomization.create(data)
+
+    return companyCustomization
+
   }
 
   /**
@@ -53,6 +93,13 @@ class CompaniesCustomizationController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+
+    const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
+
+    await companyCustomization.load('users')
+    await companyCustomization.load('companies')
+
+    return companyCustomization
   }
 
   /**
@@ -76,6 +123,41 @@ class CompaniesCustomizationController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+
+    const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
+    const data = request.only([
+      "path_img_logo",
+      "path_img_brand",
+      "path_img_background",
+      "nm_color_background",
+      "path_img_main_banner",
+      "path_img_second_banner",
+      "nr_style_header",
+      "nr_style_menu",
+      "nr_style_footer",
+      "nm_color_header",
+      "nm_color_menu",
+      "nm_color_footer",
+      "nm_slogan",
+      "nm_main_phrase",
+      "nm_second_phrase",
+      "nm_color_main",
+      "nm_color_second",
+      "nm_color_third",
+      "nm_font_main",
+      "nm_font_second",
+      "nm_font_third",
+      "nm_font_size_main",
+      "nm_font_size_second",
+      "nm_font_size_third",
+      "id_company",
+      "id_user_creator"
+    ])
+
+    companyCustomization.merge(data)
+    await companyCustomization.save()
+
+    return companyCustomization
   }
 
   /**
@@ -87,6 +169,18 @@ class CompaniesCustomizationController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    
+    const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
+
+    await companyCustomization.delete()
+  }
+
+  users () {
+    return this.hasOne('App/Models/User')
+  }
+
+  companies () {
+    return this.belongsTo('App/Models/Company')
   }
 }
 
