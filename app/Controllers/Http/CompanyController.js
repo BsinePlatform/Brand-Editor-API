@@ -120,7 +120,7 @@ class CompanyController {
 
     await company.load('users')
     await company.load('stores')
-    await company.load('companiesCustomization')
+    await company.load('company_customization')
 
     return company
   }
@@ -233,7 +233,7 @@ class CompanyController {
     return this.hasMany('App/Models/Department')
   }
 
-  companiesCustomization () {
+  company_customization () {
     return this.hasOne('App/Models/CompaniesCustomization')
   }
 

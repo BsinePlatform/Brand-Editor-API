@@ -119,8 +119,9 @@ class StoreController {
 
     const store = await Store.findOrFail(params.id)
 
-    await store.load('companies')
+    await store.load('company')
     await store.load('users')
+    await store.load('store_customization')
 
     return store
   }
@@ -227,12 +228,16 @@ class StoreController {
     return this.belongsTo('App/Models/User')
   }
 
-  companies () {
+  company () {
     return this.belongsTo('App/Models/Company')
   }
 
   departments () {
     return this.hasMany('App/Models/Department')
+  }
+
+  store_customization () {
+    return this.hasOne('App/Models/CompaniesCustomization')
   }
 
 

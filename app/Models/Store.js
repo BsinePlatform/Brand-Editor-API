@@ -5,22 +5,26 @@ const Model = use('Model')
 
 class Store extends Model {
 
-    users () {
-      // model_reference, this_column(on company), reference_column(column on model_reference) 
-      return this.belongsTo('App/Models/User', 'id_user_creator', 'id')
-    }
+  users () {
+    // model_reference, this_column(on company), reference_column(column on model_reference) 
+    return this.belongsTo('App/Models/User', 'id_user_creator', 'id')
+  }
 
-    companies () {
-      return this.belongsTo('App/Models/Company', 'id_company', 'id')
-    }
+  company () {
+    return this.belongsTo('App/Models/Company', 'id_company', 'id')
+  }
 
-    products () {
-        return this.hasMany('App/Models/Product')
-    }
+  products () {
+      return this.hasMany('App/Models/Product')
+  }
 
-    departments () {
-      return this.hasMany('App/Models/Department')
-    }
+  departments () {
+    return this.hasMany('App/Models/Department')
+  }
+    
+  store_customization () {
+    return this.hasOne('App/Models/CompaniesCustomization', 'id_store_customization', 'id')
+  }
 
 }
 

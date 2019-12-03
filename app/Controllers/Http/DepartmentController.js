@@ -71,6 +71,7 @@ class DepartmentController {
 
     await department.load('stores')
     await department.load('companies')
+    await department.load('users')
 
     return department
   }
@@ -131,6 +132,10 @@ class DepartmentController {
 
   companies () {
     return this.hasMany('App/Models/Company')
+  }
+
+  users () {
+    return this.hasMany('App/Models/User')
   }
   
 }

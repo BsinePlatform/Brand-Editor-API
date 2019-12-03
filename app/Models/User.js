@@ -45,7 +45,7 @@ class User extends Model {
   }
   
   departments () {
-    return this.hasOne('App/Models/Department', 'id', 'id_department')
+    return this.hasOne('App/Models/Department', 'id_department', 'id')
   }
 
   products () {

@@ -96,8 +96,9 @@ class CompaniesCustomizationController {
 
     const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
 
-    await companyCustomization.load('users')
-    await companyCustomization.load('companies')
+    await companyCustomization.load('user')
+    await companyCustomization.load('company')
+    await companyCustomization.load('stores')
 
     return companyCustomization
   }
@@ -175,13 +176,18 @@ class CompaniesCustomizationController {
     await companyCustomization.delete()
   }
 
-  users () {
+  user () {
     return this.hasOne('App/Models/User')
   }
 
-  companies () {
+  company () {
     return this.belongsTo('App/Models/Company')
   }
+
+  stores () {
+    return this.hasMany('App/Models/Store')
+  }
+
 }
 
 module.exports = CompaniesCustomizationController

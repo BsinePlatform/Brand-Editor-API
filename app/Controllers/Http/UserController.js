@@ -107,6 +107,7 @@ class UserController {
 
     await user.load('stores')
     await user.load('companies')
+    await user.load('departments')
 
     return user
   }
@@ -201,6 +202,10 @@ class UserController {
 
   stores () {
     return this.hasOne('App/Models/Store')
+  }
+
+  departments () {
+    return this.hasOne('App/Models/Department')
   }
 
 }
