@@ -33,6 +33,10 @@ Route.resource('companies', 'CompanyController')
 Route.resource('stores', 'StoreController')
   .apiOnly()
   .middleware('auth')
+
+Route.resource('categories', 'CategoryController')
+  .apiOnly()
+  .middleware('auth')
   
 Route.resource('departments', 'DepartmentController')
   .apiOnly()
