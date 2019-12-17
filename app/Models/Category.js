@@ -6,8 +6,12 @@ const Model = use('Model')
 class Category extends Model {
 
     company () {
-        return this.belongsTo('App/Models/Company', 'id_company', 'id')
-      }
+        return this.belongsTo('App/Models/Company')
+    }
+
+    subcategories () {
+      return this.hasMany('App/Models/SubCategory')
+    }
 }
 
 module.exports = Category

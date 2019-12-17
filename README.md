@@ -12,10 +12,18 @@ This is the boilerplate for creating an API server in AdonisJs, it comes pre-con
 
 ## Setup
 
+### First of all, configure your environment
+
+Install NodeJs and NPM in your environment.
+
+Then run `npm i -g @adonisjs/cli`.
+
+### Now, our application
+
 Manually clone the repo and then run `npm install`.
 
 
-### Migrations
+### Migrations (if you will test locally)
 
 Run the following command to run startup migrations.
 
