@@ -109,8 +109,8 @@ class CategoryController {
       "path_icon"
     ])
 
-    this.category.merge(data)
-    await this.category.save()
+    category.merge(data)
+    await category.save()
 
     return category
   }

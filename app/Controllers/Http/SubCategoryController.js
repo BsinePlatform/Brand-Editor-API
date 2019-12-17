@@ -106,8 +106,8 @@ class SubCategoryController {
       "active"
     ])
 
-    this.subcategory.merge(data)
-    await this.subcategory.save()
+    subcategory.merge(data)
+    await subcategory.save()
 
     return subcategory
   }
