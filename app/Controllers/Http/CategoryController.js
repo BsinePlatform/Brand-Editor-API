@@ -73,7 +73,7 @@ class CategoryController {
   async show({ params, request, response, view }) {
     const category = await Category.findOrFail(params.id)
 
-    await category.load('company')
+    await category.load('companies')
 
     return category
   }
@@ -109,8 +109,8 @@ class CategoryController {
       "path_icon"
     ])
 
-    this.category.merge(data)
-    await this.category.save()
+    category.merge(data)
+    await category.save()
 
     return category
   }

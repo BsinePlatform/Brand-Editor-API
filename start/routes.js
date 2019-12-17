@@ -34,7 +34,17 @@ Route.resource('stores', 'StoreController')
   .apiOnly()
   .middleware('auth')
 
-Route.resource('categories', 'CategoryController')
+Route.resource('categories', 'CategoryController').validator(new Map([
+  [['categories.store'], ['StoreCategory']],
+  [['categories.update'], ['UpdateCategory']]
+]))
+  .apiOnly()
+  .middleware('auth')
+
+Route.resource('subcategories', 'SubCategoryController').validator(new Map([
+  [['subcategories.store'], ['StoreSubCategory']],
+  [['subcategories.update'], ['UpdateSubCategory']]
+]))
   .apiOnly()
   .middleware('auth')
   
