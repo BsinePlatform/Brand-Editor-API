@@ -6,7 +6,7 @@ const Model = use('Model')
 class Image extends Model {
     
     products () {
-        return this.belongsTo('App/Models/Product')
+        return this.belongsTo('App/Models/Product', 'id_product', 'id')
     }
 }
 

@@ -70,6 +70,8 @@ class PriceController {
   async show({ params, request, response, view }) {
     const price = await Price.findOrFail(params.id)
 
+    await price.load('products')
+
     return price
   }
 

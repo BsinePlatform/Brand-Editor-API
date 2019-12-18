@@ -6,19 +6,19 @@ const Model = use('Model')
 class Product extends Model {
     
     subcategory () {
-        return this.belongsTo('App/Models/SubCategory')
+        return this.belongsTo('App/Models/SubCategory', 'id_subcategory', 'id')
     }
 
     users () {
-        return this.hasOne('App/Models/User')
+        return this.belongsTo('App/Models/User', 'id_user_creator', 'id')
     }
 
     images() {
-        return this.hasMany('App/Models/Image')
+        return this.hasMany('App/Models/Image',  'id', 'id_product')
     }
 
     prices() {
-        return this.hasMany('App/Models/Price')
+        return this.hasMany('App/Models/Price', 'id', 'id_product')
     }
 }
 
