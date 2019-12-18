@@ -176,18 +176,6 @@ class CompaniesCustomizationController {
     await companyCustomization.delete()
   }
 
-  user () {
-    return this.hasOne('App/Models/User')
-  }
-
-  company () {
-    return this.belongsTo('App/Models/Company')
-  }
-
-  stores () {
-    return this.hasMany('App/Models/Store')
-  }
-
 }
 
 module.exports = CompaniesCustomizationController

@@ -1,18 +1,18 @@
 'use strict'
 
-const Category = use('App/Models/Category')
+const Price = use('App/Models/Price')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 /**
- * Resourceful controller for interacting with categories
+ * Resourceful controller for interacting with prices
  */
-class CategoryController {
+class PriceController {
   /**
-   * Show a list of all categories.
-   * GET categories
+   * Show a list of all prices.
+   * GET prices
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -20,14 +20,11 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
-    const categories = Category.all()
-
-    return categories
   }
 
   /**
-   * Render a form to be used for creating a new category.
-   * GET categories/create
+   * Render a form to be used for creating a new price.
+   * GET prices/create
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -35,11 +32,12 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async create({ request, response, view }) {
+
   }
 
   /**
-   * Create/save a new category.
-   * POST categories
+   * Create/save a new price.
+   * POST prices
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -47,23 +45,22 @@ class CategoryController {
    */
   async store({ request, response }) {
     const data = request.only([
-      "nm_category",
-      "id_company",
-      "nm_description",
-      "nm_keyword",
-      "active",
-      "path_icon"
+      "id_product",
+      "nr_qty_min",
+      "nr_qty_max",
+      "nr_price_unit",
+      "nr_price_promo",
+      "active"
     ])
 
-    const category = await Category.create(data)
+    const price = await Price.create(data)
 
-    return category
-
+    return price
   }
 
   /**
-   * Display a single category.
-   * GET categories/:id
+   * Display a single price.
+   * GET prices/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -71,16 +68,16 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    const category = await Category.findOrFail(params.id)
+    const price = await Price.findOrFail(params.id)
 
-    await category.load('company')
+    await price.load('products')
 
-    return category
+    return price
   }
 
   /**
-   * Render a form to update an existing category.
-   * GET categories/:id/edit
+   * Render a form to update an existing price.
+   * GET prices/:id/edit
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -91,43 +88,44 @@ class CategoryController {
   }
 
   /**
-   * Update category details.
-   * PUT or PATCH categories/:id
+   * Update price details.
+   * PUT or PATCH prices/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    const category = await Category.findOrFail(params.id)
+    const price = await Price.findOrFail(params.id)
     const data = request.only([
-      "nm_category",
-      "id_company",
-      "nm_description",
-      "nm_keyword",
-      "active",
-      "path_icon"
+      "id_product",
+      "nr_qty_min",
+      "nr_qty_max",
+      "nr_price_unit",
+      "nr_price_promo",
+      "active"
     ])
 
-    category.merge(data)
-    await category.save()
+    price.merge(data)
+    await price.save()
 
-    return category
+    return price
+
   }
 
   /**
-   * Delete a category with id.
-   * DELETE categories/:id
+   * Delete a price with id.
+   * DELETE prices/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    const category = await Category.findOrFail(params.id)
+    const price = await Price.findOrFail(params.id)
 
-    await category.delete()
+    await price.delete()
   }
 }
 
-module.exports = CategoryController
+module.exports = PriceController

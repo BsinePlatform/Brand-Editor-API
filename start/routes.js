@@ -47,6 +47,13 @@ Route.resource('subcategories', 'SubCategoryController').validator(new Map([
 ]))
   .apiOnly()
   .middleware('auth')
+
+Route.resource('prices', 'PriceController').validator(new Map([
+    [['prices.store'], ['StorePrice']],
+    [['prices.update'], ['UpdatePrice']]
+  ]))
+    .apiOnly()
+    .middleware('auth')
   
 Route.resource('departments', 'DepartmentController')
   .apiOnly()
@@ -54,4 +61,16 @@ Route.resource('departments', 'DepartmentController')
 
 Route.resource('style', 'CompaniesCustomizationController')
   .apiOnly()
+  .middleware('auth')
+
+
+  Route.resource('products', 'ProductController').validator(new Map([
+    [['product.store'], ['StoreProduct']],
+    [['product.update'], ['UpdateProduct']]
+  ]))
+    .apiOnly()
+    .middleware('auth')
+
+// Rotas de teste de upload de imagem do produto, apagar depois.
+Route.post('products/:id/images', 'ImageController.store')
   .middleware('auth')

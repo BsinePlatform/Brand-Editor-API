@@ -202,8 +202,8 @@ class StoreController {
       "active"
     ])
 
-    this.store.merge(data)
-    await this.store.save()
+    store.merge(data)
+    await store.save()
 
     return store
 
@@ -222,23 +222,7 @@ class StoreController {
     const store = await  Store.findOrFail(params.id)
 
     await store.delete()
-  }
-
-  users () {
-    return this.belongsTo('App/Models/User')
-  }
-
-  company () {
-    return this.belongsTo('App/Models/Company')
-  }
-
-  departments () {
-    return this.hasMany('App/Models/Department')
-  }
-
-  store_customization () {
-    return this.hasOne('App/Models/CompaniesCustomization')
-  }
+  } 
 
 
 }

@@ -196,18 +196,6 @@ class UserController {
 
   }
 
-  companies () {
-    return this.hasMany('App/Models/Company')
-  }
-
-  stores () {
-    return this.hasOne('App/Models/Store')
-  }
-
-  departments () {
-    return this.hasOne('App/Models/Department')
-  }
-
 }
 
 module.exports = UserController
