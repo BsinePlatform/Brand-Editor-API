@@ -51,7 +51,7 @@ class ImageController {
       types: ['image'],
       size: '2mb'
     })
-
+    
     await images.moveAll(Helpers.tmpPath('uploads'), file => ({
       name: `${Date.now()}-${file.clientName}`
     }))
