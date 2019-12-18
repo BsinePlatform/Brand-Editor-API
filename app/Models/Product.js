@@ -12,6 +12,14 @@ class Product extends Model {
     users () {
         return this.hasOne('App/Models/User')
     }
+
+    images() {
+        return this.hasMany('App/Models/Image')
+    }
+
+    prices() {
+        return this.hasMany('App/Models/Price')
+    }
 }
 
 module.exports = Product

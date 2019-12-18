@@ -220,22 +220,6 @@ class CompanyController {
     
     await company.delete()
   }
-  
-  users () {
-    return this.belongsTo('App/Models/User')
-  }
-  
-  stores () {
-    return this.hasMany('App/Models/Store')
-  }
-
-  departments () {
-    return this.hasMany('App/Models/Department')
-  }
-
-  company_customization () {
-    return this.hasOne('App/Models/CompaniesCustomization')
-  }
 
 }
 

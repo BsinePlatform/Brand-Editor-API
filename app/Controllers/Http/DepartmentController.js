@@ -125,18 +125,6 @@ class DepartmentController {
 
     await department.delete()
   }
-
-  stores () {
-    return this.hasMany('App/Models/Store')
-  }
-
-  companies () {
-    return this.hasMany('App/Models/Company')
-  }
-
-  users () {
-    return this.hasMany('App/Models/User')
-  }
   
 }
 
