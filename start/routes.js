@@ -20,9 +20,10 @@ Route.get('/', () => {
   return { 'boas-vindas': 'Teste!' }
 })
 
-Route.resource("users", "UserController")
-  .apiOnly()
-  .middleware('auth')
+Route.resource('users', 'UserController').validator(new Map([
+  [['users.store'], ['StoreUser']],
+  [['users.update'], ['UpdateUser']]
+])).apiOnly().middleware('auth')
 
 Route.post('/sessions', 'SessionController.create')
 
@@ -49,12 +50,12 @@ Route.resource('subcategories', 'SubCategoryController').validator(new Map([
   .middleware('auth')
 
 Route.resource('prices', 'PriceController').validator(new Map([
-    [['prices.store'], ['StorePrice']],
-    [['prices.update'], ['UpdatePrice']]
-  ]))
-    .apiOnly()
-    .middleware('auth')
-  
+  [['prices.store'], ['StorePrice']],
+  [['prices.update'], ['UpdatePrice']]
+]))
+  .apiOnly()
+  .middleware('auth')
+
 Route.resource('departments', 'DepartmentController')
   .apiOnly()
   .middleware('auth')
@@ -64,12 +65,12 @@ Route.resource('style', 'CompaniesCustomizationController')
   .middleware('auth')
 
 
-  Route.resource('products', 'ProductController').validator(new Map([
-    [['product.store'], ['StoreProduct']],
-    [['product.update'], ['UpdateProduct']]
-  ]))
-    .apiOnly()
-    .middleware('auth')
+Route.resource('products', 'ProductController').validator(new Map([
+  [['product.store'], ['StoreProduct']],
+  [['product.update'], ['UpdateProduct']]
+]))
+  .apiOnly()
+  .middleware('auth')
 
 // Rotas de teste de upload de imagem do produto, apagar depois.
 Route.post('products/:id/images', 'ImageController.store')
