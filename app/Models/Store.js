@@ -26,6 +26,10 @@ class Store extends Model {
     return this.hasOne('App/Models/CompaniesCustomization', 'id_store_customization', 'id')
   }
 
+  product_permission () {
+    return this.hasMany('App/Models/ProductPermission', 'id_store', 'id')
+  }
+
 }
 
 module.exports = Store

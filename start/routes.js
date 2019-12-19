@@ -81,3 +81,7 @@ Route.resource('personalizations', 'PersonalizationController').validator(new Ma
   [['personalizations.update'], ['UpdatePersonalization']]
 ])).apiOnly().middleware('auth')
 
+Route.resource('product-permission', 'ProductPermissionController').validator(new Map([
+  [['product-permission.store'], ['StoreProductPermission']],
+  [['product-permission.update'], ['UpdateProductPermission']]
+])).apiOnly().middleware('auth')

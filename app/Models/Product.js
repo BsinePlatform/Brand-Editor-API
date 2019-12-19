@@ -24,6 +24,10 @@ class Product extends Model {
     personalizations() {
         return this.hasMany('App/Models/Personalization', 'id', 'id_product')
     }
+
+    product_permission() {
+        return this.hasMany('App/Models/ProductPermission', 'id', 'id_product')
+    }
 }
 
 module.exports = Product
