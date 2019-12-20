@@ -22,6 +22,10 @@ class Company extends Model {
         return this.hasMany('App/Models/Category')
     }
 
+    campaign(){
+        return this.hasMany('App/Models/Campaign')
+    }
+
 }
 
 module.exports = Company
