@@ -85,3 +85,13 @@ Route.resource('product-permission', 'ProductPermissionController').validator(ne
   [['product-permission.store'], ['StoreProductPermission']],
   [['product-permission.update'], ['UpdateProductPermission']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('permission', 'PermissionController').validator(new Map([
+  [['permission.store'], ['StorePermission']],
+  [['permission.update'], ['UpdatePermission']]
+])).apiOnly().middleware('auth')
+
+Route.resource('user-permission', 'UserPermissionController').validator(new Map([
+  [['user-permission.store'], ['StoreUserPermission']],
+  [['user-permission.update'], ['UpdateUserPermission']]
+])).apiOnly().middleware('auth')

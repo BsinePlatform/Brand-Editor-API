@@ -1,5 +1,7 @@
 'use strict'
 
+const Permission = use('App/Models/Permission')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -18,6 +20,8 @@ class PermissionController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const permission = await Permission.all();
+    return permission;
   }
 
   /**
@@ -41,6 +45,12 @@ class PermissionController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const data = request.only([
+      "nm_role"
+    ])
+
+    const permission = await Permission.create(data);
+    return permission;
   }
 
   /**
@@ -53,6 +63,8 @@ class PermissionController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const permission = await Permission.findOrFail(params.id)
+    return permission
   }
 
   /**
@@ -76,6 +88,15 @@ class PermissionController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const permission = await Permission.findOrFail(params.id);
+    const data = request.only([
+      "nm_role"
+    ])
+
+    permission.merge(data);
+    await permission.save();
+
+    return permission;
   }
 
   /**
@@ -87,6 +108,8 @@ class PermissionController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const permission = await Permission.findOrFail(params.id);
+    await permission.delete();
   }
 }
 
