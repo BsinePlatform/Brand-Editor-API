@@ -95,3 +95,12 @@ Route.resource('user-permission', 'UserPermissionController').validator(new Map(
   [['user-permission.store'], ['StoreUserPermission']],
   [['user-permission.update'], ['UpdateUserPermission']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('campaign', 'CampaignController').validator(new Map([
+  [['campaign.store'], ['StoreCampaign']],
+  [['campaign.update'], ['UpdateCampaign']]
+])).apiOnly().middleware('auth')
+
+Route.resource('campaign-image', 'CampaignImageController')
+  .apiOnly()
+  .middleware('auth')

@@ -60,6 +60,11 @@ class User extends Model {
     return this.hasMany('App/Models/Report')
   }
 
+  campaign () {
+    return this.hasMany('App/Models/Campaign')
+  }
+  
+
 }
 
 module.exports = User
