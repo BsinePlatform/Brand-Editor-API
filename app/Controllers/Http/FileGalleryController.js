@@ -1,18 +1,18 @@
 'use strict'
 
-const Gallery = use('App/Models/Gallery')
+const FileGallery = use('App/Models/FileGallery');
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 /**
- * Resourceful controller for interacting with galleries
+ * Resourceful controller for interacting with filegalleries
  */
-class GalleryController {
+class FileGalleryController {
   /**
-   * Show a list of all galleries.
-   * GET galleries
+   * Show a list of all filegalleries.
+   * GET filegalleries
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -20,13 +20,13 @@ class GalleryController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const gallery = await Gallery.all();
-    return gallery;
+    const fileGallery = await FileGallery.all();
+    return fileGallery;
   }
 
   /**
-   * Render a form to be used for creating a new gallery.
-   * GET galleries/create
+   * Render a form to be used for creating a new filegallery.
+   * GET filegalleries/create
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -37,8 +37,8 @@ class GalleryController {
   }
 
   /**
-   * Create/save a new gallery.
-   * POST galleries
+   * Create/save a new filegallery.
+   * POST filegalleries
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -46,17 +46,18 @@ class GalleryController {
    */
   async store ({ request, response }) {
     const data = request.only([
-      "id_user_creator",
-      "nm_gallery"
+      "id_gallery",
+      "id_user_upload",
+      "path_file"
     ])
 
-    const gallery = await Gallery.create(data)
-    return gallery;
+    const fileGallery = await FileGallery.create(data);
+    return fileGallery;
   }
 
   /**
-   * Display a single gallery.
-   * GET galleries/:id
+   * Display a single filegallery.
+   * GET filegalleries/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -64,14 +65,15 @@ class GalleryController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-    const gallery = await Gallery.findOrFail(params.id)
-    await gallery.load('users')
-    return gallery
+    const fileGallery = await FileGallery.findOrFail(params.id);
+    await fileGallery.load('gallery')
+    await fileGallery.load('user_upload')
+    return fileGallery;
   }
 
   /**
-   * Render a form to update an existing gallery.
-   * GET galleries/:id/edit
+   * Render a form to update an existing filegallery.
+   * GET filegalleries/:id/edit
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -82,38 +84,38 @@ class GalleryController {
   }
 
   /**
-   * Update gallery details.
-   * PUT or PATCH galleries/:id
+   * Update filegallery details.
+   * PUT or PATCH filegalleries/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-    const gallery = await Gallery.findOrFail(params.id);
+    const fileGallery = await FileGallery.findOrFail(params.id);
     const data = request.only([
-      "id_user_creator",
-      "nm_gallery"
+      "id_gallery",
+      "id_user_upload",
+      "path_file"
     ])
 
-    gallery.merge(data);
-    await gallery.save();
-    return gallery;
-
+    fileGallery.merge(data)
+    await fileGallery.save();
+    return fileGallery;
   }
 
   /**
-   * Delete a gallery with id.
-   * DELETE galleries/:id
+   * Delete a filegallery with id.
+   * DELETE filegalleries/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
-    const gallery = await Gallery.findOrFail(params.id)
-    await gallery.delete();
+    const fileGallery = await FileGallery.findOrFail(params.id)
+    await fileGallery.delete()
   }
 }
 
-module.exports = GalleryController
+module.exports = FileGalleryController
