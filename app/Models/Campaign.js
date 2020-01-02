@@ -15,6 +15,10 @@ class Campaign extends Model {
     campaignImage(){
         return this.hasMany('App/Models/CampaignImage')
     }
+
+    productCampaign(){
+        return this.hasMany('App/Models/ProductCampaign')
+    }
 }
 
 module.exports = Campaign

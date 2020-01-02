@@ -104,3 +104,7 @@ Route.resource('campaign', 'CampaignController').validator(new Map([
 Route.resource('campaign-image', 'CampaignImageController')
   .apiOnly()
   .middleware('auth')
+
+Route.resource('campaign-product', 'ProductCampaignController')
+  .apiOnly()
+  .middleware('auth')
