@@ -108,3 +108,13 @@ Route.resource('campaign-image', 'CampaignImageController')
 Route.resource('campaign-product', 'ProductCampaignController')
   .apiOnly()
   .middleware('auth')
+
+Route.resource('gallery', 'GalleryController').validator(new Map([
+  [['gallery.store'], ['StoreGallery']],
+  [['gallery.update'], ['UpdateGallery']]
+])).apiOnly().middleware('auth')
+
+Route.resource('file-gallery', 'FileGalleryController').validator(new Map([
+  [['file-gallery.store'], ['StoreFileGallery']],
+  [['file-gallery.update'], ['UpdateFileGallery']]
+])).apiOnly().middleware('auth')
