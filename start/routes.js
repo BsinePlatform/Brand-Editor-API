@@ -118,3 +118,8 @@ Route.resource('file-gallery', 'FileGalleryController').validator(new Map([
   [['file-gallery.store'], ['StoreFileGallery']],
   [['file-gallery.update'], ['UpdateFileGallery']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('payment-form', 'PaymentFormController').validator(new Map([
+  [['payment-form.store'], ['StorePaymentForm']],
+  [['payment-form.update'], ['UpdatePaymentForm']]
+])).apiOnly().middleware('auth')
