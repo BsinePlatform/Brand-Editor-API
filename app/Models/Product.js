@@ -28,6 +28,10 @@ class Product extends Model {
     product_permission() {
         return this.hasMany('App/Models/ProductPermission', 'id', 'id_product')
     }
+
+    product_campaign() {
+        return this.hasMany('App/Models/ProductCampaign', 'id', 'id_product')
+    }
 }
 
 module.exports = Product
