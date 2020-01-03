@@ -128,3 +128,8 @@ Route.resource('payment-bill', 'PaymentBillController').validator(new Map([
   [['payment-bill.store'], ['StorePaymentBill']],
   [['payment-bill.update'], ['UpdatePaymentBill']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('order', 'OrderController').validator(new Map([
+  [['order.store'], ['StoreOrder']],
+  [['order.update'], ['UpdateOrder']]
+])).apiOnly().middleware('auth')
