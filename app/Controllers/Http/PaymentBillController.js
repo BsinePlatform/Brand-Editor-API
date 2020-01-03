@@ -127,7 +127,7 @@ class PaymentBillController {
    */
   async destroy ({ params, request, response }) {
     const paymentBill = await PaymentBill.findOrFail(params.id)
-    await paymentBill.destroy()
+    await paymentBill.delete()
   }
 }
 
