@@ -1,5 +1,7 @@
 'use strict'
 
+const Order = use('App/Models/Order')
+
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -18,6 +20,8 @@ class OrderController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const orders = await Order.all()
+    return orders
   }
 
   /**
@@ -41,6 +45,16 @@ class OrderController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    const data = request.only([
+      "id_user",
+      "nr_total_price",
+      "dt_date_order",
+      "id_payment_form",
+      "nm_status",
+      "nr_postage_value"
+    ])
+    const order = await Order.create(data)
+    return order
   }
 
   /**
@@ -53,6 +67,8 @@ class OrderController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const order = await Order.findOrFail(params.id)
+    return order
   }
 
   /**
@@ -76,6 +92,19 @@ class OrderController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const order = await Order.findOrFail(params.id)
+    const data = request.only([
+      "id_user",
+      "nr_total_price",
+      "dt_date_order",
+      "id_payment_form",
+      "nm_status",
+      "nr_postage_value"
+    ])
+
+    order.merge(data)
+    await order.save()
+    return order
   }
 
   /**
@@ -87,6 +116,8 @@ class OrderController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const order = await Order.findOrFail(params.id)
+    await order.delete()
   }
 }
 
