@@ -123,3 +123,8 @@ Route.resource('payment-form', 'PaymentFormController').validator(new Map([
   [['payment-form.store'], ['StorePaymentForm']],
   [['payment-form.update'], ['UpdatePaymentForm']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('payment-bill', 'PaymentBillController').validator(new Map([
+  [['payment-bill.store'], ['StorePaymentBill']],
+  [['payment-bill.update'], ['UpdatePaymentBill']]
+])).apiOnly().middleware('auth')
