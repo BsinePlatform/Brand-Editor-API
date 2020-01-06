@@ -133,3 +133,7 @@ Route.resource('order', 'OrderController').validator(new Map([
   [['order.store'], ['StoreOrder']],
   [['order.update'], ['UpdateOrder']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('order-items', 'OrderItemController')
+.apiOnly()
+.middleware('auth')
