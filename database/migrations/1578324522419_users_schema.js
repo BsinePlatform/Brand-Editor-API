@@ -3,20 +3,20 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class GalleriesSchema extends Schema {
+class UsersSchema extends Schema {
   up () {
     this
     .raw("SET sql_mode='TRADITIONAL'")
-    .table('galleries', (table) => {
-      table.dropColumn('id_user_creator')      
+    .table('users', (table) => {
+      table.dropColumn('id_department')
     })
   }
 
   down () {
-    this.table('galleries', (table) => {
+    this.table('users', (table) => {
       // reverse alternations
     })
   }
 }
 
-module.exports = GalleriesSchema
+module.exports = UsersSchema

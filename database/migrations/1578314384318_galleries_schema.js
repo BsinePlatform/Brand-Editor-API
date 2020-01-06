@@ -5,10 +5,11 @@ const Schema = use('Schema')
 
 class GalleriesSchema extends Schema {
   up () {
-    this
-    .raw("SET sql_mode='TRADITIONAL'")
-    .table('galleries', (table) => {
-      table.dropColumn('id_user_creator')      
+    this.table('galleries', (table) => {
+      table.integer('id_user_creator')
+        .unsigned()
+        .references('id')
+        .inTable('users')
     })
   }
 
