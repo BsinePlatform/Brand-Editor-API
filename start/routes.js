@@ -147,3 +147,8 @@ Route.resource('additional-feature', 'AdditionalFeatureController').validator(ne
   [['additional-feature.store'], ['StoreAdditionalFeature']],
   [['additional-feature.update'], ['UpdateAdditionalFeature']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('product-feature', 'ProductFeatureController').validator(new Map([
+  [['product-feature.store'], ['StoreProductFeature']],
+  [['product-feature.update'], ['UpdateProductFeature']]
+])).apiOnly().middleware('auth')
