@@ -156,3 +156,8 @@ Route.resource('product-feature', 'ProductFeatureController').validator(new Map(
 Route.resource('gallery-permission', 'GalleryPermissionController')
 .apiOnly()
 .middleware('auth')
+
+Route.resource('file-permission', 'FilePermissionController').validator(new Map([
+  [['file-permission.store'], ['StoreFilePermission']],
+  [['file-permission.update'], ['UpdateFilePermission']]
+])).apiOnly().middleware('auth')
