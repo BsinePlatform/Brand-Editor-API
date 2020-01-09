@@ -62,7 +62,10 @@ Route.resource('prices', 'PriceController').validator(new Map([
   .apiOnly()
   .middleware('auth')
 
-Route.resource('departments', 'DepartmentController')
+Route.resource('departments', 'DepartmentController').validator(new Map([
+  [['departments.store'], ['StoreDepartment']],
+  [['departments.update'], ['UpdateDepartment']]
+]))
   .apiOnly()
   .middleware('auth')
 
