@@ -34,7 +34,10 @@ Route.resource('companies', 'CompanyController').validator(new Map([
   .apiOnly()
   .middleware('auth')
 
-Route.resource('stores', 'StoreController')
+Route.resource('stores', 'StoreController').validator(new Map([
+  [['stores.store'], ['StoreStore']],
+  [['stores.update'], ['UpdateStore']]
+]))
   .apiOnly()
   .middleware('auth')
 
