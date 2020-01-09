@@ -161,3 +161,9 @@ Route.resource('file-permission', 'FilePermissionController').validator(new Map(
   [['file-permission.store'], ['StoreFilePermission']],
   [['file-permission.update'], ['UpdateFilePermission']]
 ])).apiOnly().middleware('auth')
+
+Route.resource('additional-feature-item', 'AdditionalFeatureItemController').validator(new Map([
+  [['additional-feature-item.store'], ['StoreAdditionalFeatureItem']],
+  [['additional-feature-item.update'], ['UpdateAdditionalFeatureItem']]
+])).apiOnly().middleware('auth')
+
