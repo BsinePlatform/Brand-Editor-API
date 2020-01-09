@@ -27,7 +27,10 @@ Route.resource('users', 'UserController').validator(new Map([
 
 Route.post('/sessions', 'SessionController.create')
 
-Route.resource('companies', 'CompanyController')
+Route.resource('companies', 'CompanyController').validator(new Map([
+  [['companies.store'], ['StoreCompany']],
+  [['companies.update'], ['UpdateCompany']]
+]))
   .apiOnly()
   .middleware('auth')
 
