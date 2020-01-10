@@ -120,7 +120,10 @@ Route.resource('campaign-image', 'CampaignImageController').validator(new Map([
   .apiOnly()
   .middleware('auth')
 
-Route.resource('campaign-product', 'ProductCampaignController')
+Route.resource('campaign-product', 'ProductCampaignController').validator(new Map([
+  [['campaign-product.store'], ['StoreCampaignProduct']],
+  [['campaign-product.update'], ['UpdateCampaignProduct']]
+]))
   .apiOnly()
   .middleware('auth')
 
