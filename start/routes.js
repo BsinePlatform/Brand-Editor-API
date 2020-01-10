@@ -69,7 +69,10 @@ Route.resource('departments', 'DepartmentController').validator(new Map([
   .apiOnly()
   .middleware('auth')
 
-Route.resource('style', 'CompaniesCustomizationController')
+Route.resource('style', 'CompaniesCustomizationController').validator(new Map([
+  [['style.store'], ['StoreCompanyCustomization']],
+  [['style.update'], ['UpdateCompanyCustomization']]
+]))
   .apiOnly()
   .middleware('auth')
 
