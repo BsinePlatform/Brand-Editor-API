@@ -94,6 +94,7 @@ class CompanyController {
       "nm_twitter",
       "nm_site",
       "path_img_profile",
+      "bucket_name",
       "id_user_creator",
       "id_company_customization",
       "active"
