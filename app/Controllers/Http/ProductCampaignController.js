@@ -20,8 +20,13 @@ class ProductCampaignController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const productCampaings = await ProductCampaign.all()
-    return productCampaings
+    try {
+      const productCampaings = await ProductCampaign.all()
+      return productCampaings
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -45,15 +50,20 @@ class ProductCampaignController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const data = request.only([
-      "id_product",
-      "id_campaign",
-      "active"
-    ])
-
-    const productCampaign = await ProductCampaign.create(data)
-
-    return productCampaign
+    try {
+      const data = request.only([
+        "id_product",
+        "id_campaign",
+        "active"
+      ])
+  
+      const productCampaign = await ProductCampaign.create(data)
+  
+      return productCampaign
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -66,12 +76,17 @@ class ProductCampaignController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-    const productCampaign = await ProductCampaign.findOrFail(params.id)
-
-    await productCampaign.load('products')
-    await productCampaign.load('campaigns')
-
-    return productCampaign
+    try {
+      const productCampaign = await ProductCampaign.findOrFail(params.id)
+  
+      await productCampaign.load('products')
+      await productCampaign.load('campaigns')
+  
+      return productCampaign
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -95,17 +110,22 @@ class ProductCampaignController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-    const productCampaign = await ProductCampaign.findOrFail(params.id)
-    const data = request.only([
-      "id_product",
-      "id_campaign",
-      "active"
-    ])
-    
-    productCampaign.merge(data)
-    await productCampaign.save()
-
-    return productCampaign
+    try {
+      const productCampaign = await ProductCampaign.findOrFail(params.id)
+      const data = request.only([
+        "id_product",
+        "id_campaign",
+        "active"
+      ])
+      
+      productCampaign.merge(data)
+      await productCampaign.save()
+  
+      return productCampaign
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -117,8 +137,13 @@ class ProductCampaignController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
-    const productCampaign = await ProductCampaign.findOrFail(params.id)
-    await productCampaign.delete()
+    try {
+      const productCampaign = await ProductCampaign.findOrFail(params.id)
+      await productCampaign.delete()
+      
+    } catch (error) {
+      return error
+    }
   }
 }
 

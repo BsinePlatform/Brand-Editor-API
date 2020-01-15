@@ -19,9 +19,14 @@ class PermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const permission = await Permission.all();
-    return permission;
+  async index({ request, response, view }) {
+    try {
+      const permission = await Permission.all();
+      return permission;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class PermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,13 +49,18 @@ class PermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "nm_role"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "nm_role"
+      ])
 
-    const permission = await Permission.create(data);
-    return permission;
+      const permission = await Permission.create(data);
+      return permission;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -62,9 +72,14 @@ class PermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const permission = await Permission.findOrFail(params.id)
-    return permission
+  async show({ params, request, response, view }) {
+    try {
+      const permission = await Permission.findOrFail(params.id)
+      return permission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -76,7 +91,7 @@ class PermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -87,16 +102,21 @@ class PermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const permission = await Permission.findOrFail(params.id);
-    const data = request.only([
-      "nm_role"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const permission = await Permission.findOrFail(params.id);
+      const data = request.only([
+        "nm_role"
+      ])
 
-    permission.merge(data);
-    await permission.save();
+      permission.merge(data);
+      await permission.save();
 
-    return permission;
+      return permission;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -107,9 +127,14 @@ class PermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const permission = await Permission.findOrFail(params.id);
-    await permission.delete();
+  async destroy({ params, request, response }) {
+    try {
+      const permission = await Permission.findOrFail(params.id);
+      await permission.delete();
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

@@ -19,9 +19,13 @@ class CampaignImageController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const campaignimage = await CampaingImage.all();
-    return campaignimage;
+  async index({ request, response, view }) {
+    try {
+      const campaignimage = await CampaingImage.all();
+      return campaignimage;
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +37,7 @@ class CampaignImageController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,16 +48,21 @@ class CampaignImageController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_campaign",
-      "path_img",
-      "nm_type",
-      "active"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_campaign",
+        "path_img",
+        "nm_type",
+        "active"
+      ])
 
-    const campaignimage = await CampaingImage.create(data);
-    return campaignimage;
+      const campaignimage = await CampaingImage.create(data);
+      return campaignimage;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -65,10 +74,15 @@ class CampaignImageController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const campaignimage = await CampaingImage.findOrFail(params.id);
-    await campaignimage.load('campaign');
-    return campaignimage;
+  async show({ params, request, response, view }) {
+    try {
+      const campaignimage = await CampaingImage.findOrFail(params.id);
+      await campaignimage.load('campaign');
+      return campaignimage;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -80,7 +94,7 @@ class CampaignImageController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -91,18 +105,23 @@ class CampaignImageController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const campaignimage = await CampaingImage.findOrFail(params.id);
-    const data = request.only([
-      "id_campaign",
-      "path_img",
-      "nm_type",
-      "active"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const campaignimage = await CampaingImage.findOrFail(params.id);
+      const data = request.only([
+        "id_campaign",
+        "path_img",
+        "nm_type",
+        "active"
+      ])
 
-    campaignimage.merge(data);
-    await campaignimage.save();
-    return campaignimage;
+      campaignimage.merge(data);
+      await campaignimage.save();
+      return campaignimage;
+
+    } catch (error) {
+      return error
+    }
 
   }
 
@@ -114,9 +133,14 @@ class CampaignImageController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const campaignimage = await CampaingImage.findOrFail(params.id);
-    await campaignimage.delete();
+  async destroy({ params, request, response }) {
+    try {
+      const campaignimage = await CampaingImage.findOrFail(params.id);
+      await campaignimage.delete();
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

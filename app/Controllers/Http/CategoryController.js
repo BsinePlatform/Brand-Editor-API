@@ -20,9 +20,14 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
-    const categories = Category.all()
+    try {
+      const categories = Category.all()
 
-    return categories
+      return categories
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -46,18 +51,23 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    const data = request.only([
-      "nm_category",
-      "id_company",
-      "nm_description",
-      "nm_keyword",
-      "active",
-      "path_icon"
-    ])
+    try {
+      const data = request.only([
+        "nm_category",
+        "id_company",
+        "nm_description",
+        "nm_keyword",
+        "active",
+        "path_icon"
+      ])
 
-    const category = await Category.create(data)
+      const category = await Category.create(data)
 
-    return category
+      return category
+
+    } catch (error) {
+      return error
+    }
 
   }
 
@@ -71,11 +81,16 @@ class CategoryController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    const category = await Category.findOrFail(params.id)
+    try {
+      const category = await Category.findOrFail(params.id)
 
-    await category.load('company')
+      await category.load('company')
 
-    return category
+      return category
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -99,20 +114,25 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    const category = await Category.findOrFail(params.id)
-    const data = request.only([
-      "nm_category",
-      "id_company",
-      "nm_description",
-      "nm_keyword",
-      "active",
-      "path_icon"
-    ])
+    try {
+      const category = await Category.findOrFail(params.id)
+      const data = request.only([
+        "nm_category",
+        "id_company",
+        "nm_description",
+        "nm_keyword",
+        "active",
+        "path_icon"
+      ])
 
-    category.merge(data)
-    await category.save()
+      category.merge(data)
+      await category.save()
 
-    return category
+      return category
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -124,9 +144,14 @@ class CategoryController {
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    const category = await Category.findOrFail(params.id)
+    try {
+      const category = await Category.findOrFail(params.id)
 
-    await category.delete()
+      await category.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

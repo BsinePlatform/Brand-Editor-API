@@ -19,10 +19,15 @@ class ProductController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const products = await Product.all()
+  async index({ request, response, view }) {
+    try {
+      const products = await Product.all()
 
-    return products
+      return products
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -34,7 +39,7 @@ class ProductController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -45,43 +50,48 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_subcategory",
-      "nm_product",
-      "dt_ini",
-      "dt_end",
-      "nr_production_period",
-      "nr_stock_control",
-      "nr_sold_out",
-      "nr_launch",
-      "nr_best_seller",
-      "nr_featured",
-      "active",
-      "nm_reduced_description",
-      "nm_full_description",
-      "nr_customizable",
-      "id_user_creator",
-      "nr_other_taxes",
-      "nr_initial_price",
-      "nr_initial_weight",
-      "nr_final_weight",
-      "nr_calculate_format",
-      "nr_buy_limit",
-      "sc_measurement",
-      "nr_unit_weight",
-      "nr_unit_width",
-      "nr_unit_length",
-      "nr_unit_height",
-      "nr_enable_unit_price",
-      "nr_enable_additional_value",
-      "nr_show_price",
-      "nm_keyword"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_subcategory",
+        "nm_product",
+        "dt_ini",
+        "dt_end",
+        "nr_production_period",
+        "nr_stock_control",
+        "nr_sold_out",
+        "nr_launch",
+        "nr_best_seller",
+        "nr_featured",
+        "active",
+        "nm_reduced_description",
+        "nm_full_description",
+        "nr_customizable",
+        "id_user_creator",
+        "nr_other_taxes",
+        "nr_initial_price",
+        "nr_initial_weight",
+        "nr_final_weight",
+        "nr_calculate_format",
+        "nr_buy_limit",
+        "sc_measurement",
+        "nr_unit_weight",
+        "nr_unit_width",
+        "nr_unit_length",
+        "nr_unit_height",
+        "nr_enable_unit_price",
+        "nr_enable_additional_value",
+        "nr_show_price",
+        "nm_keyword"
+      ])
 
-    const product = await Product.create(data)
+      const product = await Product.create(data)
 
-    return product
+      return product
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -93,13 +103,18 @@ class ProductController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const product = await Product.findOrFail(params.id)
-    
-    await product.load('subcategory')
-    await product.load('users')
+  async show({ params, request, response, view }) {
+    try {
+      const product = await Product.findOrFail(params.id)
 
-    return product
+      await product.load('subcategory')
+      await product.load('users')
+
+      return product
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -111,7 +126,7 @@ class ProductController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -122,45 +137,50 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const product = await Product.findOrFail(params.id)
-    const data = request.only([
-      "id_subcategory",
-      "nm_product",
-      "dt_ini",
-      "dt_end",
-      "nr_production_period",
-      "nr_stock_control",
-      "nr_sold_out",
-      "nr_launch",
-      "nr_best_seller",
-      "nr_featured",
-      "active",
-      "nm_reduced_description",
-      "nm_full_description",
-      "nr_customizable",
-      "id_user_creator",
-      "nr_other_taxes",
-      "nr_initial_price",
-      "nr_initial_weight",
-      "nr_final_weight",
-      "nr_calculate_format",
-      "nr_buy_limit",
-      "sc_measurement",
-      "nr_unit_weight",
-      "nr_unit_width",
-      "nr_unit_length",
-      "nr_unit_height",
-      "nr_enable_unit_price",
-      "nr_enable_additional_value",
-      "nr_show_price",
-      "nm_keyword"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const product = await Product.findOrFail(params.id)
+      const data = request.only([
+        "id_subcategory",
+        "nm_product",
+        "dt_ini",
+        "dt_end",
+        "nr_production_period",
+        "nr_stock_control",
+        "nr_sold_out",
+        "nr_launch",
+        "nr_best_seller",
+        "nr_featured",
+        "active",
+        "nm_reduced_description",
+        "nm_full_description",
+        "nr_customizable",
+        "id_user_creator",
+        "nr_other_taxes",
+        "nr_initial_price",
+        "nr_initial_weight",
+        "nr_final_weight",
+        "nr_calculate_format",
+        "nr_buy_limit",
+        "sc_measurement",
+        "nr_unit_weight",
+        "nr_unit_width",
+        "nr_unit_length",
+        "nr_unit_height",
+        "nr_enable_unit_price",
+        "nr_enable_additional_value",
+        "nr_show_price",
+        "nm_keyword"
+      ])
 
-    product.merge(data)
-    await product.save()
+      product.merge(data)
+      await product.save()
 
-    return product
+      return product
+
+    } catch (error) {
+      return error
+    }
 
 
   }
@@ -173,10 +193,15 @@ class ProductController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const product = await Product.findOrFail(params.id)
+  async destroy({ params, request, response }) {
+    try {
+      const product = await Product.findOrFail(params.id)
 
-    await product.delete()
+      await product.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

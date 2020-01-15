@@ -19,9 +19,14 @@ class FeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const features = await Feature.all()
-    return features
+  async index({ request, response, view }) {
+    try {
+      const features = await Feature.all()
+      return features
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class FeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,13 +49,18 @@ class FeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "nm_feature",
-      "active"
-    ])
-    const feature = await Feature.create(data)
-    return feature
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "nm_feature",
+        "active"
+      ])
+      const feature = await Feature.create(data)
+      return feature
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -62,9 +72,14 @@ class FeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const features = await Feature.findOrFail(params.id)
-    return features
+  async show({ params, request, response, view }) {
+    try {
+      const features = await Feature.findOrFail(params.id)
+      return features
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -76,7 +91,7 @@ class FeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -87,15 +102,20 @@ class FeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const feature = await Feature.findOrFail(params.id)
-    const data = request.only([
-      "nm_feature",
-      "active"
-    ])
-    feature.merge(data)
-    await feature.save()
-    return feature
+  async update({ params, request, response }) {
+    try {
+      const feature = await Feature.findOrFail(params.id)
+      const data = request.only([
+        "nm_feature",
+        "active"
+      ])
+      feature.merge(data)
+      await feature.save()
+      return feature
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -106,9 +126,14 @@ class FeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const feature = await Feature.findOrFail(params.id)
-    await feature.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const feature = await Feature.findOrFail(params.id)
+      await feature.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

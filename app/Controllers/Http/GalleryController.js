@@ -19,9 +19,14 @@ class GalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const gallery = await Gallery.all();
-    return gallery;
+  async index({ request, response, view }) {
+    try {
+      const gallery = await Gallery.all();
+      return gallery;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class GalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,14 +49,19 @@ class GalleryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_user_creator",
-      "nm_gallery"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_user_creator",
+        "nm_gallery"
+      ])
 
-    const gallery = await Gallery.create(data)
-    return gallery;
+      const gallery = await Gallery.create(data)
+      return gallery;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -63,10 +73,15 @@ class GalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const gallery = await Gallery.findOrFail(params.id)
-    await gallery.load('users')
-    return gallery
+  async show({ params, request, response, view }) {
+    try {
+      const gallery = await Gallery.findOrFail(params.id)
+      await gallery.load('users')
+      return gallery
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -78,7 +93,7 @@ class GalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -89,16 +104,21 @@ class GalleryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const gallery = await Gallery.findOrFail(params.id);
-    const data = request.only([
-      "id_user_creator",
-      "nm_gallery"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const gallery = await Gallery.findOrFail(params.id);
+      const data = request.only([
+        "id_user_creator",
+        "nm_gallery"
+      ])
 
-    gallery.merge(data);
-    await gallery.save();
-    return gallery;
+      gallery.merge(data);
+      await gallery.save();
+      return gallery;
+
+    } catch (error) {
+      return error
+    }
 
   }
 
@@ -110,9 +130,14 @@ class GalleryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const gallery = await Gallery.findOrFail(params.id)
-    await gallery.delete();
+  async destroy({ params, request, response }) {
+    try {
+      const gallery = await Gallery.findOrFail(params.id)
+      await gallery.delete();
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

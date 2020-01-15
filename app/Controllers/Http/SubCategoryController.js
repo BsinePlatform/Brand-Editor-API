@@ -20,9 +20,14 @@ class SubCategoryController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const subcategories = SubCategory.all()
-
-    return subcategories
+    try {
+      const subcategories = SubCategory.all()
+  
+      return subcategories
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -46,17 +51,22 @@ class SubCategoryController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const data = request.only([
-      "id_category",
-      "nm_subcategory",
-      "nm_description",
-      "nm_keyword",
-      "active"
-    ])
-
-    const subcategory = await SubCategory.create(data)
-
-    return subcategory
+    try {
+      const data = request.only([
+        "id_category",
+        "nm_subcategory",
+        "nm_description",
+        "nm_keyword",
+        "active"
+      ])
+  
+      const subcategory = await SubCategory.create(data)
+  
+      return subcategory
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -69,11 +79,16 @@ class SubCategoryController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-    const subcategory = await SubCategory.findOrFail(params.id)
-
-    await subcategory.load('categories')
-
-    return subcategory
+    try {
+      const subcategory = await SubCategory.findOrFail(params.id)
+  
+      await subcategory.load('categories')
+  
+      return subcategory
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -97,19 +112,24 @@ class SubCategoryController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-    const subcategory = await SubCategory.findOrFail(params.id)
-    const data = request.only([
-      "id_category",
-      "nm_subcategory",
-      "nm_description",
-      "nm_keyword",
-      "active"
-    ])
-
-    subcategory.merge(data)
-    await subcategory.save()
-
-    return subcategory
+    try {
+      const subcategory = await SubCategory.findOrFail(params.id)
+      const data = request.only([
+        "id_category",
+        "nm_subcategory",
+        "nm_description",
+        "nm_keyword",
+        "active"
+      ])
+  
+      subcategory.merge(data)
+      await subcategory.save()
+  
+      return subcategory
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -121,9 +141,14 @@ class SubCategoryController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
-    const subcategory = await SubCategory.findOrFail(params.id)
-
-    await subcategory.delete()
+    try {
+      const subcategory = await SubCategory.findOrFail(params.id)
+  
+      await subcategory.delete()
+      
+    } catch (error) {
+      return error
+    }
   }
 }
 

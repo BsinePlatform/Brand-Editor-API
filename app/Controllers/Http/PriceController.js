@@ -44,18 +44,23 @@ class PriceController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    const data = request.only([
-      "id_product",
-      "nr_qty_min",
-      "nr_qty_max",
-      "nr_price_unit",
-      "nr_price_promo",
-      "active"
-    ])
+    try {
+      const data = request.only([
+        "id_product",
+        "nr_qty_min",
+        "nr_qty_max",
+        "nr_price_unit",
+        "nr_price_promo",
+        "active"
+      ])
 
-    const price = await Price.create(data)
+      const price = await Price.create(data)
 
-    return price
+      return price
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -68,11 +73,16 @@ class PriceController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    const price = await Price.findOrFail(params.id)
+    try {
+      const price = await Price.findOrFail(params.id)
 
-    await price.load('products')
+      await price.load('products')
 
-    return price
+      return price
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -96,20 +106,25 @@ class PriceController {
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    const price = await Price.findOrFail(params.id)
-    const data = request.only([
-      "id_product",
-      "nr_qty_min",
-      "nr_qty_max",
-      "nr_price_unit",
-      "nr_price_promo",
-      "active"
-    ])
+    try {
+      const price = await Price.findOrFail(params.id)
+      const data = request.only([
+        "id_product",
+        "nr_qty_min",
+        "nr_qty_max",
+        "nr_price_unit",
+        "nr_price_promo",
+        "active"
+      ])
 
-    price.merge(data)
-    await price.save()
+      price.merge(data)
+      await price.save()
 
-    return price
+      return price
+
+    } catch (error) {
+      return error
+    }
 
   }
 
@@ -122,9 +137,14 @@ class PriceController {
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    const price = await Price.findOrFail(params.id)
+    try {
+      const price = await Price.findOrFail(params.id)
 
-    await price.delete()
+      await price.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 
