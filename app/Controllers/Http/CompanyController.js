@@ -1,6 +1,9 @@
 'use strict'
 
 const Company = use('App/Models/Company')
+const AwsS3 = require('../../Infra/aws/s3/s3');
+const FormatNumber = require('../../utils/formatNumber');
+const FormatBucket = require('../../utils/formatBucketS3Name');
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -94,14 +97,22 @@ class CompanyController {
       "nm_twitter",
       "nm_site",
       "path_img_profile",
+      "bucket_name",
       "id_user_creator",
       "id_company_customization",
       "active"
     ])
 
-    const company = await Company.create(data)
+    data['nr_cnpj'] = FormatNumber(data['nr_cnpj'])
+    data['bucket_name'] = FormatBucket(data['nm_corporate_name'], data['nr_cnpj']);
+    const company = await Company.create(data);
+    
+    if(company) {
+      const newBucket = new AwsS3();
+      const resp = newBucket.createBucketInS3(data['bucket_name']);
+    }
 
-    return company
+    return company;
 
   }
 
@@ -195,6 +206,7 @@ class CompanyController {
       "nm_twitter",
       "nm_site",
       "path_img_profile",
+      "bucket_name",
       "id_user_creator",
       "id_company_customization",
       "active"

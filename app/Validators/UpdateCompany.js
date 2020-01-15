@@ -3,8 +3,9 @@
 class UpdateCompany {
   get rules () {
     return {
-      nm_corporate_name: "required|unique:companies",
-      nr_cnpj: "required|unique:companies"
+      nm_corporate_name: "required",
+      nr_cnpj: "required",
+      nm_responsible_email: "email"
     }
   }
 }
