@@ -19,9 +19,13 @@ class AdditionalFeatureItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const additionalFeatureitems = await AdditionalFeatureItem.all()
-    return additionalFeatureitems
+  async index({ request, response, view }) {
+    try {
+      const additionalFeatureitems = await AdditionalFeatureItem.all()
+      return additionalFeatureitems
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +37,7 @@ class AdditionalFeatureItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,14 +48,18 @@ class AdditionalFeatureItemController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_order_item",
-      "id_additional_feature"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_order_item",
+        "id_additional_feature"
+      ])
 
-    const additionalFeatureItem = await AdditionalFeatureItem.create(data)
-    return additionalFeatureItem
+      const additionalFeatureItem = await AdditionalFeatureItem.create(data)
+      return additionalFeatureItem
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -63,12 +71,16 @@ class AdditionalFeatureItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const additionalFeatureItem = await AdditionalFeatureItem.findOrFail(params.id)
-    await additionalFeatureItem.load('orderItem')
-    await additionalFeatureItem.load('additionalFeature')
+  async show({ params, request, response, view }) {
+    try {
+      const additionalFeatureItem = await AdditionalFeatureItem.findOrFail(params.id)
+      await additionalFeatureItem.load('orderItem')
+      await additionalFeatureItem.load('additionalFeature')
 
-    return additionalFeatureItem
+      return additionalFeatureItem
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -80,7 +92,7 @@ class AdditionalFeatureItemController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /** 
@@ -91,16 +103,21 @@ class AdditionalFeatureItemController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const additionalFeatureItem = await AdditionalFeatureItem.findOrFail(params.id)
-    const data = request.only([
-      "id_order_item",
-      "id_additional_feature"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const additionalFeatureItem = await AdditionalFeatureItem.findOrFail(params.id)
+      const data = request.only([
+        "id_order_item",
+        "id_additional_feature"
+      ])
 
-    additionalFeatureItem.merge(data)
-    await additionalFeatureItem.save()
-    return additionalFeatureItem
+      additionalFeatureItem.merge(data)
+      await additionalFeatureItem.save()
+      return additionalFeatureItem
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -111,9 +128,13 @@ class AdditionalFeatureItemController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const additionalFeatureItem = await AdditionalFeatureItem.findOrFail(params.id)
-    await additionalFeatureItem.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const additionalFeatureItem = await AdditionalFeatureItem.findOrFail(params.id)
+      await additionalFeatureItem.delete()
+    } catch (error) {
+      return error
+    }
   }
 }
 

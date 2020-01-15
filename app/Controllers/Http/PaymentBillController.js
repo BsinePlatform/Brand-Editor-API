@@ -19,9 +19,14 @@ class PaymentBillController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const paymentBills = await PaymentBill.all()
-    return paymentBills
+  async index({ request, response, view }) {
+    try {
+      const paymentBills = await PaymentBill.all()
+      return paymentBills
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class PaymentBillController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,22 +49,27 @@ class PaymentBillController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "nm_assignor",
-      "nr_agency",
-      "nr_bill",
-      "nr_document",
-      "nr_bill_value",
-      "nr_bin",
-      "dt_end_payment_date",
-      "nr_our_number",
-      "nr_document_number",
-      "id_order"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "nm_assignor",
+        "nr_agency",
+        "nr_bill",
+        "nr_document",
+        "nr_bill_value",
+        "nr_bin",
+        "dt_end_payment_date",
+        "nr_our_number",
+        "nr_document_number",
+        "id_order"
+      ])
 
-    const paymentBill = await PaymentBill.create(data)
-    return paymentBill
+      const paymentBill = await PaymentBill.create(data)
+      return paymentBill
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -71,10 +81,15 @@ class PaymentBillController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const paymentBill = await PaymentBill.findOrFail(params.id)
-    await paymentBill.load('orders')
-    return paymentBill
+  async show({ params, request, response, view }) {
+    try {
+      const paymentBill = await PaymentBill.findOrFail(params.id)
+      await paymentBill.load('orders')
+      return paymentBill
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -86,7 +101,7 @@ class PaymentBillController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -97,24 +112,29 @@ class PaymentBillController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const paymentBill = await PaymentBill.findOrFail(params.id)
-    const data = request.only([
-      "nm_assignor",
-      "nr_agency",
-      "nr_bill",
-      "nr_document",
-      "nr_bill_value",
-      "nr_bin",
-      "dt_end_payment_date",
-      "nr_our_number",
-      "nr_document_number",
-      "id_order"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const paymentBill = await PaymentBill.findOrFail(params.id)
+      const data = request.only([
+        "nm_assignor",
+        "nr_agency",
+        "nr_bill",
+        "nr_document",
+        "nr_bill_value",
+        "nr_bin",
+        "dt_end_payment_date",
+        "nr_our_number",
+        "nr_document_number",
+        "id_order"
+      ])
 
-    paymentBill.merge(data)
-    await paymentBill.save()
-    return paymentBill
+      paymentBill.merge(data)
+      await paymentBill.save()
+      return paymentBill
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -125,9 +145,14 @@ class PaymentBillController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const paymentBill = await PaymentBill.findOrFail(params.id)
-    await paymentBill.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const paymentBill = await PaymentBill.findOrFail(params.id)
+      await paymentBill.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

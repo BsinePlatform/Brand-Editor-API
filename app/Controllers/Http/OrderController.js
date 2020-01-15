@@ -19,9 +19,14 @@ class OrderController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const orders = await Order.all()
-    return orders
+  async index({ request, response, view }) {
+    try {
+      const orders = await Order.all()
+      return orders
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class OrderController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,17 +49,22 @@ class OrderController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_user",
-      "nr_total_price",
-      "dt_date_order",
-      "id_payment_form",
-      "nm_status",
-      "nr_postage_value"
-    ])
-    const order = await Order.create(data)
-    return order
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_user",
+        "nr_total_price",
+        "dt_date_order",
+        "id_payment_form",
+        "nm_status",
+        "nr_postage_value"
+      ])
+      const order = await Order.create(data)
+      return order
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -66,9 +76,14 @@ class OrderController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const order = await Order.findOrFail(params.id)
-    return order
+  async show({ params, request, response, view }) {
+    try {
+      const order = await Order.findOrFail(params.id)
+      return order
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -80,7 +95,7 @@ class OrderController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -91,20 +106,25 @@ class OrderController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const order = await Order.findOrFail(params.id)
-    const data = request.only([
-      "id_user",
-      "nr_total_price",
-      "dt_date_order",
-      "id_payment_form",
-      "nm_status",
-      "nr_postage_value"
-    ])
+  async update({ params, request, response }) {
+    try {
 
-    order.merge(data)
-    await order.save()
-    return order
+      const order = await Order.findOrFail(params.id)
+      const data = request.only([
+        "id_user",
+        "nr_total_price",
+        "dt_date_order",
+        "id_payment_form",
+        "nm_status",
+        "nr_postage_value"
+      ])
+
+      order.merge(data)
+      await order.save()
+      return order
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -115,9 +135,14 @@ class OrderController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const order = await Order.findOrFail(params.id)
-    await order.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const order = await Order.findOrFail(params.id)
+      await order.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

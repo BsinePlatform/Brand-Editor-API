@@ -20,9 +20,14 @@ class ProductFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const productFeatures = await ProductFeature.all()
-    return productFeatures
+  async index({ request, response, view }) {
+    try {
+      const productFeatures = await ProductFeature.all()
+      return productFeatures
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -34,7 +39,7 @@ class ProductFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -45,15 +50,20 @@ class ProductFeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      'id_product',
-      'id_feature'
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        'id_product',
+        'id_feature'
+      ])
 
-    const productFeature = await ProductFeature.create(data)
+      const productFeature = await ProductFeature.create(data)
 
-    return productFeature
+      return productFeature
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -65,11 +75,16 @@ class ProductFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const productFeature = await ProductFeature.findOrFail(params.id)
-    await productFeature.load('product')
-    await productFeature.load('feature')
-    return productFeature
+  async show({ params, request, response, view }) {
+    try {
+      const productFeature = await ProductFeature.findOrFail(params.id)
+      await productFeature.load('product')
+      await productFeature.load('feature')
+      return productFeature
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -81,7 +96,7 @@ class ProductFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -92,15 +107,20 @@ class ProductFeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const productFeature = await ProductFeature.findOrFail(params.id)
-    const data = request.only([
-      'id_product',
-      'id_feature'
-    ])
-    productFeature.merge(data)
-    await productFeature.save()
-    return productFeature
+  async update({ params, request, response }) {
+    try {
+      const productFeature = await ProductFeature.findOrFail(params.id)
+      const data = request.only([
+        'id_product',
+        'id_feature'
+      ])
+      productFeature.merge(data)
+      await productFeature.save()
+      return productFeature
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -111,9 +131,14 @@ class ProductFeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const productFeature = await ProductFeature.findOrFail(params.id)
-    await productFeature.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const productFeature = await ProductFeature.findOrFail(params.id)
+      await productFeature.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

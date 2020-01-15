@@ -19,11 +19,16 @@ class CompaniesCustomizationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
+    try {
+      const companiesCustomization = CompaniesCustomization.all()
 
-    const companiesCustomization = CompaniesCustomization.all()
+      return companiesCustomization
 
-    return companiesCustomization
+    } catch (error) {
+      return error
+    }
+
   }
 
   /**
@@ -35,7 +40,7 @@ class CompaniesCustomizationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -46,40 +51,44 @@ class CompaniesCustomizationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "path_img_logo",
+        "path_img_brand",
+        "path_img_background",
+        "nm_color_background",
+        "path_img_main_banner",
+        "path_img_second_banner",
+        "nr_style_header",
+        "nr_style_menu",
+        "nr_style_footer",
+        "nm_color_header",
+        "nm_color_menu",
+        "nm_color_footer",
+        "nm_slogan",
+        "nm_main_phrase",
+        "nm_second_phrase",
+        "nm_color_main",
+        "nm_color_second",
+        "nm_color_third",
+        "nm_font_main",
+        "nm_font_second",
+        "nm_font_third",
+        "nm_font_size_main",
+        "nm_font_size_second",
+        "nm_font_size_third",
+        "id_company",
+        "id_user_creator"
+      ])
 
-    const data = request.only([
-      "path_img_logo",
-      "path_img_brand",
-      "path_img_background",
-      "nm_color_background",
-      "path_img_main_banner",
-      "path_img_second_banner",
-      "nr_style_header",
-      "nr_style_menu",
-      "nr_style_footer",
-      "nm_color_header",
-      "nm_color_menu",
-      "nm_color_footer",
-      "nm_slogan",
-      "nm_main_phrase",
-      "nm_second_phrase",
-      "nm_color_main",
-      "nm_color_second",
-      "nm_color_third",
-      "nm_font_main",
-      "nm_font_second",
-      "nm_font_third",
-      "nm_font_size_main",
-      "nm_font_size_second",
-      "nm_font_size_third",
-      "id_company",
-      "id_user_creator"
-    ])
+      const companyCustomization = await CompaniesCustomization.create(data)
 
-    const companyCustomization = await CompaniesCustomization.create(data)
+      return companyCustomization
 
-    return companyCustomization
+    } catch (error) {
+      return error
+    }
 
   }
 
@@ -92,15 +101,20 @@ class CompaniesCustomizationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
+    try {
+      const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
 
-    const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
+      await companyCustomization.load('user')
+      await companyCustomization.load('company')
+      await companyCustomization.load('stores')
 
-    await companyCustomization.load('user')
-    await companyCustomization.load('company')
-    await companyCustomization.load('stores')
+      return companyCustomization
 
-    return companyCustomization
+    } catch (error) {
+      return error
+    }
+
   }
 
   /**
@@ -112,7 +126,7 @@ class CompaniesCustomizationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -123,42 +137,47 @@ class CompaniesCustomizationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
 
-    const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
-    const data = request.only([
-      "path_img_logo",
-      "path_img_brand",
-      "path_img_background",
-      "nm_color_background",
-      "path_img_main_banner",
-      "path_img_second_banner",
-      "nr_style_header",
-      "nr_style_menu",
-      "nr_style_footer",
-      "nm_color_header",
-      "nm_color_menu",
-      "nm_color_footer",
-      "nm_slogan",
-      "nm_main_phrase",
-      "nm_second_phrase",
-      "nm_color_main",
-      "nm_color_second",
-      "nm_color_third",
-      "nm_font_main",
-      "nm_font_second",
-      "nm_font_third",
-      "nm_font_size_main",
-      "nm_font_size_second",
-      "nm_font_size_third",
-      "id_company",
-      "id_user_creator"
-    ])
+    try {
 
-    companyCustomization.merge(data)
-    await companyCustomization.save()
+      const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
+      const data = request.only([
+        "path_img_logo",
+        "path_img_brand",
+        "path_img_background",
+        "nm_color_background",
+        "path_img_main_banner",
+        "path_img_second_banner",
+        "nr_style_header",
+        "nr_style_menu",
+        "nr_style_footer",
+        "nm_color_header",
+        "nm_color_menu",
+        "nm_color_footer",
+        "nm_slogan",
+        "nm_main_phrase",
+        "nm_second_phrase",
+        "nm_color_main",
+        "nm_color_second",
+        "nm_color_third",
+        "nm_font_main",
+        "nm_font_second",
+        "nm_font_third",
+        "nm_font_size_main",
+        "nm_font_size_second",
+        "nm_font_size_third",
+        "id_company",
+        "id_user_creator"
+      ])
 
-    return companyCustomization
+      companyCustomization.merge(data)
+      await companyCustomization.save()
+
+      return companyCustomization
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -169,11 +188,15 @@ class CompaniesCustomizationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    
-    const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
+  async destroy({ params, request, response }) {
+    try {
+      const companyCustomization = await CompaniesCustomization.findOrFail(params.id)
 
-    await companyCustomization.delete()
+      await companyCustomization.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 
 }

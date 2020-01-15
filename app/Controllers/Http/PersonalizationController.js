@@ -20,9 +20,14 @@ class PersonalizationController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const personalizations = Personalization.all();
-
-    return personalizations;
+    try {
+      const personalizations = Personalization.all();
+  
+      return personalizations;
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -46,23 +51,28 @@ class PersonalizationController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const data = request.only([
-      "id_product",
-      "nm_template_type",
-      "nr_cod_item",
-      "nr_file_upload",
-      "nr_show_form",
-      "nr_buy_after_personalize",
-      "nr_deadline",
-      "nr_credit_value_client",
-      "nr_download_ok_deadline",
-      "nr_qty_download",
-      "nr_content_approval"
-    ])
-
-    const personalization = await Personalization.create(data)
-
-    return personalization
+    try {
+      const data = request.only([
+        "id_product",
+        "nm_template_type",
+        "nr_cod_item",
+        "nr_file_upload",
+        "nr_show_form",
+        "nr_buy_after_personalize",
+        "nr_deadline",
+        "nr_credit_value_client",
+        "nr_download_ok_deadline",
+        "nr_qty_download",
+        "nr_content_approval"
+      ])
+  
+      const personalization = await Personalization.create(data)
+  
+      return personalization
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -75,11 +85,16 @@ class PersonalizationController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-    const personalization = await Personalization.findOrFail(params.id)
-
-    await personalization.load('products')
-
-    return personalization
+    try {
+      const personalization = await Personalization.findOrFail(params.id)
+  
+      await personalization.load('products')
+  
+      return personalization
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -103,27 +118,32 @@ class PersonalizationController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-    const personalization = await Personalization.findOrFail(params.id)
-
-    const data = request.only([
-      "id_product",
-      "nm_template_type",
-      "nr_cod_item",
-      "nr_file_upload",
-      "nr_show_form",
-      "nr_buy_after_personalize",
-      "nr_deadline",
-      "nr_credit_value_client",
-      "nr_download_ok_deadline",
-      "nr_qty_download",
-      "nr_content_approval"
-    ])
-
-    personalization.merge(data);
-
-    await personalization.save();
-
-    return personalization;
+    try {
+      const personalization = await Personalization.findOrFail(params.id)
+  
+      const data = request.only([
+        "id_product",
+        "nm_template_type",
+        "nr_cod_item",
+        "nr_file_upload",
+        "nr_show_form",
+        "nr_buy_after_personalize",
+        "nr_deadline",
+        "nr_credit_value_client",
+        "nr_download_ok_deadline",
+        "nr_qty_download",
+        "nr_content_approval"
+      ])
+  
+      personalization.merge(data);
+  
+      await personalization.save();
+  
+      return personalization;
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -135,9 +155,14 @@ class PersonalizationController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
-    const personalization = await Personalization.findOrFail(params.id)
-
-    await personalization.delete();
+    try {
+      const personalization = await Personalization.findOrFail(params.id)
+  
+      await personalization.delete();
+      
+    } catch (error) {
+      return error
+    }
   }
 }
 

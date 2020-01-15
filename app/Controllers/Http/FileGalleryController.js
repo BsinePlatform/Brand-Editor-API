@@ -19,9 +19,14 @@ class FileGalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const fileGallery = await FileGallery.all();
-    return fileGallery;
+  async index({ request, response, view }) {
+    try {
+      const fileGallery = await FileGallery.all();
+      return fileGallery;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class FileGalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,15 +49,20 @@ class FileGalleryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_gallery",
-      "id_user_upload",
-      "path_file"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_gallery",
+        "id_user_upload",
+        "path_file"
+      ])
 
-    const fileGallery = await FileGallery.create(data);
-    return fileGallery;
+      const fileGallery = await FileGallery.create(data);
+      return fileGallery;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -64,11 +74,17 @@ class FileGalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const fileGallery = await FileGallery.findOrFail(params.id);
-    await fileGallery.load('gallery')
-    await fileGallery.load('user_upload')
-    return fileGallery;
+  async show({ params, request, response, view }) {
+
+    try {
+      const fileGallery = await FileGallery.findOrFail(params.id);
+      await fileGallery.load('gallery')
+      await fileGallery.load('user_upload')
+      return fileGallery;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -80,7 +96,7 @@ class FileGalleryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -91,17 +107,22 @@ class FileGalleryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const fileGallery = await FileGallery.findOrFail(params.id);
-    const data = request.only([
-      "id_gallery",
-      "id_user_upload",
-      "path_file"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const fileGallery = await FileGallery.findOrFail(params.id);
+      const data = request.only([
+        "id_gallery",
+        "id_user_upload",
+        "path_file"
+      ])
 
-    fileGallery.merge(data)
-    await fileGallery.save();
-    return fileGallery;
+      fileGallery.merge(data)
+      await fileGallery.save();
+      return fileGallery;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -112,9 +133,14 @@ class FileGalleryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const fileGallery = await FileGallery.findOrFail(params.id)
-    await fileGallery.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const fileGallery = await FileGallery.findOrFail(params.id)
+      await fileGallery.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

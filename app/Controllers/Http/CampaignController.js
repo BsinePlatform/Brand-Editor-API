@@ -19,9 +19,14 @@ class CampaignController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const campaign = await Campaign.all();
-    return campaign;
+  async index({ request, response, view }) {
+    try {
+      const campaign = await Campaign.all();
+      return campaign;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class CampaignController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,20 +49,25 @@ class CampaignController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_company",
-      "id_user_creator",
-      "nm_campaign",
-      "nm_description",
-      "path_img",
-      "dt_ini",
-      "dt_end",
-      "active"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_company",
+        "id_user_creator",
+        "nm_campaign",
+        "nm_description",
+        "path_img",
+        "dt_ini",
+        "dt_end",
+        "active"
+      ])
 
-    const campaign = await Campaign.create(data);
-    return campaign;
+      const campaign = await Campaign.create(data);
+      return campaign;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -69,11 +79,16 @@ class CampaignController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const campaign = await Campaign.findOrFail(params.id);
-    await campaign.load('company')
-    await campaign.load('user')
-    return campaign;
+  async show({ params, request, response, view }) {
+    try {
+      const campaign = await Campaign.findOrFail(params.id);
+      await campaign.load('company')
+      await campaign.load('user')
+      return campaign;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -85,7 +100,7 @@ class CampaignController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -96,22 +111,27 @@ class CampaignController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const campaign = await Campaign.findOrFail(params.id);
-    const data = request.only([
-      "id_company",
-      "id_user_creator",
-      "nm_campaign",
-      "nm_description",
-      "path_img",
-      "dt_ini",
-      "dt_end",
-      "active"
-    ]);
+  async update({ params, request, response }) {
+    try {
+      const campaign = await Campaign.findOrFail(params.id);
+      const data = request.only([
+        "id_company",
+        "id_user_creator",
+        "nm_campaign",
+        "nm_description",
+        "path_img",
+        "dt_ini",
+        "dt_end",
+        "active"
+      ]);
 
-    campaign.merge(data);
-    await campaign.save();
-    return campaign;
+      campaign.merge(data);
+      await campaign.save();
+      return campaign;
+
+    } catch (error) {
+      return error
+    }
 
   }
 
@@ -123,9 +143,14 @@ class CampaignController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const campaign = await Campaign.findOrFail(params.id)
-    await campaign.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const campaign = await Campaign.findOrFail(params.id)
+      await campaign.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

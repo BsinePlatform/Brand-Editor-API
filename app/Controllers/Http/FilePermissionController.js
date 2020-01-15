@@ -19,9 +19,14 @@ class FilePermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const filePermissions = await FilePermission.all()
-    return filePermissions
+  async index({ request, response, view }) {
+    try {
+      const filePermissions = await FilePermission.all()
+      return filePermissions
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class FilePermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,17 +49,22 @@ class FilePermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_file",
-      "id_user",
-      "id_department",
-      "id_store",
-      "id_company",
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_file",
+        "id_user",
+        "id_department",
+        "id_store",
+        "id_company",
+      ])
 
-    const filePermission = await FilePermission.create(data)
-    return filePermission
+      const filePermission = await FilePermission.create(data)
+      return filePermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -66,15 +76,20 @@ class FilePermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const filePermission = await FilePermission.findOrFail(params.id)
-    await filePermission.load('file')
-    await filePermission.load('user')
-    await filePermission.load('department')
-    await filePermission.load('store')
-    await filePermission.load('company')
+  async show({ params, request, response, view }) {
+    try {
+      const filePermission = await FilePermission.findOrFail(params.id)
+      await filePermission.load('file')
+      await filePermission.load('user')
+      await filePermission.load('department')
+      await filePermission.load('store')
+      await filePermission.load('company')
 
-    return filePermission
+      return filePermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -86,7 +101,7 @@ class FilePermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -97,19 +112,24 @@ class FilePermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const filePermission = await FilePermission.findOrFail(params.id)
-    const data = request.only([
-      "id_file",
-      "id_user",
-      "id_department",
-      "id_store",
-      "id_company"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const filePermission = await FilePermission.findOrFail(params.id)
+      const data = request.only([
+        "id_file",
+        "id_user",
+        "id_department",
+        "id_store",
+        "id_company"
+      ])
 
-    filePermission.merge(data)
-    await filePermission.save()
-    return filePermission
+      filePermission.merge(data)
+      await filePermission.save()
+      return filePermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -120,9 +140,14 @@ class FilePermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const filePermission = await FilePermission.findOrFail(params.id)
-    await filePermission.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const filePermission = await FilePermission.findOrFail(params.id)
+      await filePermission.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

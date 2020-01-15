@@ -19,9 +19,14 @@ class ProductPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const productPermission = await ProductPermission.all()
-    return productPermission;
+  async index({ request, response, view }) {
+    try {
+      const productPermission = await ProductPermission.all()
+      return productPermission;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class ProductPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,16 +49,21 @@ class ProductPermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_product",
-      "id_store",
-      "nm_state"
-    ]);
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_product",
+        "id_store",
+        "nm_state"
+      ]);
 
-    const productPermission = await ProductPermission.create(data)
+      const productPermission = await ProductPermission.create(data)
 
-    return productPermission
+      return productPermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -65,13 +75,18 @@ class ProductPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const productPermission = await ProductPermission.findOrFail(params.id)
+  async show({ params, request, response, view }) {
+    try {
+      const productPermission = await ProductPermission.findOrFail(params.id)
 
-    await productPermission.load('products')
-    await productPermission.load('stores')
+      await productPermission.load('products')
+      await productPermission.load('stores')
 
-    return productPermission
+      return productPermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -83,7 +98,7 @@ class ProductPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -94,17 +109,22 @@ class ProductPermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const productPermission = await ProductPermission.findOrFail(params.id)
-    const data = request.only([
-      "id_product",
-      "id_store",
-      "nm_state"
-    ]);
+  async update({ params, request, response }) {
+    try {
+      const productPermission = await ProductPermission.findOrFail(params.id)
+      const data = request.only([
+        "id_product",
+        "id_store",
+        "nm_state"
+      ]);
 
-    productPermission.merge(data)
-    await productPermission.save()
-    return productPermission
+      productPermission.merge(data)
+      await productPermission.save()
+      return productPermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -115,9 +135,14 @@ class ProductPermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const productPermission = await ProductPermission.findOrFail(params.id)
-    await productPermission.delete();
+  async destroy({ params, request, response }) {
+    try {
+      const productPermission = await ProductPermission.findOrFail(params.id)
+      await productPermission.delete();
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

@@ -19,9 +19,14 @@ class PaymentFormController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const paymentForm = PaymentForm.all();
-    return paymentForm;
+  async index({ request, response, view }) {
+    try {
+      const paymentForm = PaymentForm.all();
+      return paymentForm;
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class PaymentFormController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,12 +49,17 @@ class PaymentFormController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "nm_form"
-    ])
-    const paymentForm = await PaymentForm.create(data)
-    return paymentForm
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "nm_form"
+      ])
+      const paymentForm = await PaymentForm.create(data)
+      return paymentForm
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -61,9 +71,14 @@ class PaymentFormController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const paymentForm = await PaymentForm.findOrFail(params.id)
-    return paymentForm
+  async show({ params, request, response, view }) {
+    try {
+      const paymentForm = await PaymentForm.findOrFail(params.id)
+      return paymentForm
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -75,7 +90,7 @@ class PaymentFormController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -86,15 +101,20 @@ class PaymentFormController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const paymentForm = await PaymentForm.findOrFail(params.id)
-    const data = request.only([
-      "nm_form"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const paymentForm = await PaymentForm.findOrFail(params.id)
+      const data = request.only([
+        "nm_form"
+      ])
 
-    paymentForm.merge(data)
-    await paymentForm.save()
-    return paymentForm
+      paymentForm.merge(data)
+      await paymentForm.save()
+      return paymentForm
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -105,9 +125,14 @@ class PaymentFormController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const paymentForm = await PaymentForm.findOrFail(params.id)
-    await paymentForm.delete();
+  async destroy({ params, request, response }) {
+    try {
+      const paymentForm = await PaymentForm.findOrFail(params.id)
+      await paymentForm.delete();
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

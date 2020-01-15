@@ -19,9 +19,13 @@ class AdditionalFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const additionalFeatures = await AdditionalFeature.all()
-    return additionalFeatures 
+  async index({ request, response, view }) {
+    try {
+      const additionalFeatures = await AdditionalFeature.all()
+      return additionalFeatures
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +37,7 @@ class AdditionalFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,20 +48,25 @@ class AdditionalFeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_feature",
-      "nm_additional_feature",
-      "nr_additional_value",
-      "nr_additional_weight",
-      "path_img_feature",
-      "active",
-      "id_calculation_factor",
-      "nr_additional_height"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_feature",
+        "nm_additional_feature",
+        "nr_additional_value",
+        "nr_additional_weight",
+        "path_img_feature",
+        "active",
+        "id_calculation_factor",
+        "nr_additional_height"
+      ])
 
-    const additionalFeature = await AdditionalFeature.create(data)
-    return additionalFeature 
+      const additionalFeature = await AdditionalFeature.create(data)
+      return additionalFeature
+    } catch (error) {
+      return error
+    }
+
   }
 
   /**
@@ -69,10 +78,14 @@ class AdditionalFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const additionalFeature = await AdditionalFeature.findOrFail(params.id)
-    await additionalFeature.load('feature')
-    return additionalFeature 
+  async show({ params, request, response, view }) {
+    try {
+      const additionalFeature = await AdditionalFeature.findOrFail(params.id)
+      await additionalFeature.load('feature')
+      return additionalFeature
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -84,7 +97,7 @@ class AdditionalFeatureController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -95,21 +108,27 @@ class AdditionalFeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const additionalFeature = await AdditionalFeature.findOrFail(params.id)
-    const data = request.only([
-      "id_feature",
-      "nm_additional_feature",
-      "nr_additional_value",
-      "nr_additional_weight",
-      "path_img_feature",
-      "active",
-      "id_calculation_factor",
-      "nr_additional_height"
-    ])
-    additionalFeature.merge(data)
-    await additionalFeature.save()
-    return additionalFeature
+  async update({ params, request, response }) {
+    try {
+      const additionalFeature = await AdditionalFeature.findOrFail(params.id)
+      const data = request.only([
+        "id_feature",
+        "nm_additional_feature",
+        "nr_additional_value",
+        "nr_additional_weight",
+        "path_img_feature",
+        "active",
+        "id_calculation_factor",
+        "nr_additional_height"
+      ])
+      additionalFeature.merge(data)
+      await additionalFeature.save()
+
+      return additionalFeature
+    } catch (error) {
+      return error
+    }
+
   }
 
   /**
@@ -120,9 +139,13 @@ class AdditionalFeatureController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const additionalFeature = await AdditionalFeature.findOrFail(params.id)
-    await additionalFeature.delete()
+  async destroy({ params, request, response }) {
+    try {
+      const additionalFeature = await AdditionalFeature.findOrFail(params.id)
+      await additionalFeature.delete()
+    } catch (error) {
+      return error
+    }
   }
 }
 

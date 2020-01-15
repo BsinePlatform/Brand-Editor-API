@@ -1,6 +1,6 @@
 'use strict'
 
-const Department = use ("App/Models/Department");
+const Department = use("App/Models/Department");
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -19,10 +19,15 @@ class DepartmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const departments = await Department.all()
+  async index({ request, response, view }) {
+    try {
+      const departments = await Department.all()
 
-    return departments
+      return departments
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -34,7 +39,7 @@ class DepartmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -45,16 +50,21 @@ class DepartmentController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "nm_department",
-      "id_company",
-      "id_store"
-    ])
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "nm_department",
+        "id_company",
+        "id_store"
+      ])
 
-    const department = await Department.create(data)
+      const department = await Department.create(data)
 
-    return department
+      return department
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -66,14 +76,19 @@ class DepartmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const department = await Department.findOrFail(params.id)
+  async show({ params, request, response, view }) {
+    try {
+      const department = await Department.findOrFail(params.id)
 
-    await department.load('stores')
-    await department.load('companies')
-    await department.load('users')
+      await department.load('stores')
+      await department.load('companies')
+      await department.load('users')
 
-    return department
+      return department
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -85,7 +100,7 @@ class DepartmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -96,19 +111,24 @@ class DepartmentController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
 
-    const department = await Department.findOrFail(params.id)
-    const data = request.only([
-      "nm_department",
-      "id_company",
-      "id_store"
-    ])
+    try {
+      const department = await Department.findOrFail(params.id)
+      const data = request.only([
+        "nm_department",
+        "id_company",
+        "id_store"
+      ])
 
-    department.merge(data)
-    await department.save()
+      department.merge(data)
+      await department.save()
 
-    return department
+      return department
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -119,13 +139,18 @@ class DepartmentController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response }) {
 
-    const department = await Department.findOrFail(params.id)
+    try {
+      const department = await Department.findOrFail(params.id)
 
-    await department.delete()
+      await department.delete()
+
+    } catch (error) {
+      return error
+    }
   }
-  
+
 }
 
 module.exports = DepartmentController

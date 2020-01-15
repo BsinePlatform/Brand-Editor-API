@@ -20,8 +20,13 @@ class UserPermissionController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const user_permissions = await UserPermission.all();
-    return user_permissions;
+    try {
+      const user_permissions = await UserPermission.all();
+      return user_permissions;
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -45,14 +50,19 @@ class UserPermissionController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const data = request.only([
-      "id_permission",
-      "id_user",
-      "active"
-    ]);
-
-    const user_permissions = await UserPermission.create(data);
-    return user_permissions;
+    try {
+      const data = request.only([
+        "id_permission",
+        "id_user",
+        "active"
+      ]);
+  
+      const user_permissions = await UserPermission.create(data);
+      return user_permissions;
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -65,10 +75,15 @@ class UserPermissionController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-    const user_permissions = await UserPermission.findOrFail(params.id);
-    await user_permissions.load('users')
-    await user_permissions.load('permissions')
-    return user_permissions;
+    try {
+      const user_permissions = await UserPermission.findOrFail(params.id);
+      await user_permissions.load('users')
+      await user_permissions.load('permissions')
+      return user_permissions;
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -92,16 +107,21 @@ class UserPermissionController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-    const user_permissions = await UserPermission.findOrFail(params.id);
-    const data = request.only([
-      "id_permission",
-      "id_user",
-      "active"
-    ])
-
-    user_permissions.merge(data);
-    await user_permissions.save();
-    return user_permissions;
+    try {
+      const user_permissions = await UserPermission.findOrFail(params.id);
+      const data = request.only([
+        "id_permission",
+        "id_user",
+        "active"
+      ])
+  
+      user_permissions.merge(data);
+      await user_permissions.save();
+      return user_permissions;
+      
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -113,8 +133,13 @@ class UserPermissionController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
-    const user_permissions = await UserPermission.findOrFail(params.id);
-    await user_permissions.delete();
+    try {
+      const user_permissions = await UserPermission.findOrFail(params.id);
+      await user_permissions.delete();
+      
+    } catch (error) {
+      return error
+    }
   }
 
 

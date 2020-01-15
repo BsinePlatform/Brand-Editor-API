@@ -19,9 +19,14 @@ class GalleryPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const galleryPermission = await GalleryPermission.all()
-    return galleryPermission
+  async index({ request, response, view }) {
+    try {
+      const galleryPermission = await GalleryPermission.all()
+      return galleryPermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -33,7 +38,7 @@ class GalleryPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
+  async create({ request, response, view }) {
   }
 
   /**
@@ -44,17 +49,22 @@ class GalleryPermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only([
-      "id_gallery",
-      "id_user",
-      "id_department",
-      "id_store",
-      "id_company",
-    ])
-    
-    const galleryPermission = await GalleryPermission.create(data)
-    return galleryPermission
+  async store({ request, response }) {
+    try {
+      const data = request.only([
+        "id_gallery",
+        "id_user",
+        "id_department",
+        "id_store",
+        "id_company",
+      ])
+
+      const galleryPermission = await GalleryPermission.create(data)
+      return galleryPermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -66,15 +76,20 @@ class GalleryPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-    const galleryPermission = await GalleryPermission.findOrFail(params.id)
-    await galleryPermission.load('gallery')
-    await galleryPermission.load('user')
-    await galleryPermission.load('department')
-    await galleryPermission.load('store')
-    await galleryPermission.load('company')
+  async show({ params, request, response, view }) {
+    try {
+      const galleryPermission = await GalleryPermission.findOrFail(params.id)
+      await galleryPermission.load('gallery')
+      await galleryPermission.load('user')
+      await galleryPermission.load('department')
+      await galleryPermission.load('store')
+      await galleryPermission.load('company')
 
-    return galleryPermission
+      return galleryPermission
+
+    } catch (error) {
+      return error
+    }
   }
 
   /**
@@ -86,7 +101,7 @@ class GalleryPermissionController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
+  async edit({ params, request, response, view }) {
   }
 
   /**
@@ -97,20 +112,25 @@ class GalleryPermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-    const galleryPermission = await GalleryPermission.findOrFail(params.id)
-    const data = request.only([
-      "id_gallery",
-      "id_user",
-      "id_department",
-      "id_store",
-      "id_company"
-    ])
+  async update({ params, request, response }) {
+    try {
+      const galleryPermission = await GalleryPermission.findOrFail(params.id)
+      const data = request.only([
+        "id_gallery",
+        "id_user",
+        "id_department",
+        "id_store",
+        "id_company"
+      ])
 
-    galleryPermission.merge(data)
-    await galleryPermission.save()
-    return galleryPermission
-    
+      galleryPermission.merge(data)
+      await galleryPermission.save()
+      return galleryPermission
+
+    } catch (error) {
+      return error
+    }
+
   }
 
   /**
@@ -121,9 +141,14 @@ class GalleryPermissionController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const galleryPermission = await GalleryPermission.findOrFail(params.id)
-    await galleryPermission.delete()    
+  async destroy({ params, request, response }) {
+    try {
+      const galleryPermission = await GalleryPermission.findOrFail(params.id)
+      await galleryPermission.delete()
+
+    } catch (error) {
+      return error
+    }
   }
 }
 
