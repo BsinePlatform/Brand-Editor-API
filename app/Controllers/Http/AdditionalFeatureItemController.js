@@ -65,7 +65,7 @@ class AdditionalFeatureItemController {
         const additionalFeatureItem = await AdditionalFeatureItem.create(data)
         return additionalFeatureItem
       } else {
-        return response.json({error: "Esse registro já está na base de dados!"});
+        return response.status(400).json({error: "Esse registro já está na base de dados!"});
       }      
     } catch (error) {
       return error
