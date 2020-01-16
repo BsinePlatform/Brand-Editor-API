@@ -62,8 +62,18 @@ class CampaignController {
         "active"
       ])
 
-      const campaign = await Campaign.create(data);
-      return campaign;
+      const existCampaign = await Campaign
+                            .query()
+                            .where('id_company', '=', data['id_company'])
+                            .where('nm_campaign', '=', data['nm_campaign'])
+                            .getCount()
+
+      if(existCampaign == 0) {
+        const campaign = await Campaign.create(data);
+        return campaign;
+      } else {
+        return response.json({error: "Esse registro já está na base de dados!"});
+      }      
 
     } catch (error) {
       return error

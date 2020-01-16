@@ -55,8 +55,18 @@ class AdditionalFeatureItemController {
         "id_additional_feature"
       ])
 
-      const additionalFeatureItem = await AdditionalFeatureItem.create(data)
-      return additionalFeatureItem
+      const existAdditionalFeatureItem = await AdditionalFeatureItem
+                            .query()
+                            .where('id_order_item', '=', data['id_order_item'])
+                            .where('id_additional_feature', '=', data['id_additional_feature'])
+                            .getCount()
+
+      if(existAdditionalFeatureItem == 0) {
+        const additionalFeatureItem = await AdditionalFeatureItem.create(data)
+        return additionalFeatureItem
+      } else {
+        return response.json({error: "Esse registro já está na base de dados!"});
+      }      
     } catch (error) {
       return error
     }
