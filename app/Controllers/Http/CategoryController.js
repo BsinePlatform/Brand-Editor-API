@@ -60,10 +60,19 @@ class CategoryController {
         "active",
         "path_icon"
       ])
-
-      const category = await Category.create(data)
-
-      return category
+      
+      const existCategory = await Category
+                            .query()
+                            .where('nm_category', '=', data['nm_category'])
+                            .where('id_company', '=', data['id_company'])
+                            .getCount()
+      
+      if(existCategory == 0) {
+        const category = await Category.create(data)
+        return category
+      } else {
+        return response.json({error: "Esse registro já está na base de dados!"});
+      }      
 
     } catch (error) {
       return error
