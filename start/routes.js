@@ -85,7 +85,7 @@ Route.resource('products', 'ProductController').validator(new Map([
   .middleware('auth')
 
 // Rotas de teste de upload de imagem do produto, apagar depois.
-Route.post('products/:id/images', 'ImageController.store')
+Route.post('images', 'ImageController.store')
   .middleware('auth')
 
 Route.resource('personalizations', 'PersonalizationController').validator(new Map([

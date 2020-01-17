@@ -1,8 +1,9 @@
 'use strict'
 
-const Image = use('App/Models/Image')
+const Image   = use('App/Models/Image')
 const Product = use('App/Models/Product')
-const Helpers = use('Helpers')
+const Helpers = use('Helpers');
+const S3      = require('../../Infra/aws/s3/s3');
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -45,15 +46,21 @@ class ImageController {
    * @param {Response} ctx.response
    */
   async store({ request, response, params }) {
-    try {
+    //Bucket dasdasdfdadas123123222
+    //const bucket = 'dasdasdfdadas123123222';
+    //const file = './app/Infra/aws/s3/teste.png';
+    
+    //const aswS3 = new S3();
 
-      const product = await Product.findOrFail(params.id)
+    //aswS3.uploadFileS3(bucket, file)
+    
+    try {
 
       const images = request.file('image', {
         types: ['image'],
         size: '2mb'
-      })
-
+      });
+      
       await images.moveAll(Helpers.tmpPath('uploads'), file => ({
         name: `${Date.now()}-${file.clientName}`
       }))
@@ -62,12 +69,6 @@ class ImageController {
       if (!images.movedAll()) {
         return images.errors()
       }
-
-      await Promise.all(
-        images
-          .movedList()
-          .map(image => product.images().create({ path: image.fileName }))
-      )
 
     } catch (error) {
       return error

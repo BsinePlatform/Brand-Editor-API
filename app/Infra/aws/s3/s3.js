@@ -1,6 +1,7 @@
 'use strict'
 
 const AWS = require('aws-sdk'); 
+const fs = require('fs');
 
 AWS.config = new AWS.Config();
 AWS.config.accessKeyId = process.env.AWS_ACCESS_KEY_ID;
@@ -15,6 +16,7 @@ class AwsS3 {
         
     }
 
+    // Create Bucket in S3
     createBucketInS3(bucketName){
         var bucketParams = {
             Bucket : bucketName,
@@ -28,6 +30,26 @@ class AwsS3 {
             } else {
                 return data.Location;
             }
+        });
+    }
+
+    // Upload file in Bucket
+    uploadFileS3(bucketName, file) {
+        const fileContent = fs.readFileSync(file);
+
+        // Setting up S3 upload parameters
+        const params = {
+            Bucket: bucketName,
+            Key: 'cat.png', // File name you want to save as in S3
+            Body: fileContent
+        };
+
+        // Uploading files to the bucket
+        s3.upload(params, function(err, data) {
+            if (err) {
+                throw err;
+            }
+            console.log(`File uploaded successfully. ${data.Location}`);
         });
     }
 }
