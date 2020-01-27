@@ -1,9 +1,12 @@
 'use strict'
 
-const Image   = use('App/Models/Image')
-const Product = use('App/Models/Product')
+const Image = use('App/Models/Image');
+const Product = use('App/Models/Product');
 const Helpers = use('Helpers');
-const S3      = require('../../Infra/aws/s3/s3');
+const GenerateRandomName = require('../../utils/generateRandomName'); 
+const userBucket = require('../../utils/getBucket');
+const S3 = require('../../Infra/aws/s3/s3');
+const fs = require('fs');
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -45,30 +48,70 @@ class ImageController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response, params }) {
-    //Bucket dasdasdfdadas123123222
-    //const bucket = 'dasdasdfdadas123123222';
-    //const file = './app/Infra/aws/s3/teste.png';
-    
-    //const aswS3 = new S3();
+  async store({ request, response, params, auth }) {
+    const product = await Product.findOrFail(params.id);
 
-    //aswS3.uploadFileS3(bucket, file)
-    
+    const bucket = await userBucket(auth.user.id);
+
+    if(bucket == false || bucket == '') {
+      return response.status(400).json({"error": "Bucket not found"})
+    }    
+
     try {
 
       const images = request.file('image', {
         types: ['image'],
         size: '2mb'
       });
-      
-      await images.moveAll(Helpers.tmpPath('uploads'), file => ({
-        name: `${Date.now()}-${file.clientName}`
+
+      var hasDir = './tmp/uploads/'+auth.user.id;
+
+      if (!fs.existsSync(hasDir)){
+        fs.mkdirSync(hasDir, { recursive: true }, (err) => {
+          if(err) {
+            return err
+          }
+        });
+      }      
+
+      await images.moveAll(hasDir, file => ({
+        name: GenerateRandomName()+'.'+file.extname
       }))
 
 
       if (!images.movedAll()) {
         return images.errors()
       }
+
+      const awsS3 = new S3();
+
+      let results = '';
+      const selects = fs.readdirSync(hasDir).map(file => awsS3.uploadFileS3(bucket, hasDir+'/'+file));
+      await Promise.all(
+        selects)
+        .then(result => results = result)
+        .catch( e => console.log(e)
+        );
+      
+
+      if(results[0] !== undefined ) { 
+        results.map(result => {
+          try {
+            product.images().create({ path_img: result, bucket_name: bucket })  
+          } catch (error) {
+            return error
+          }
+          
+        });
+
+        fs.readdirSync(hasDir).map(file => {
+          fs.unlinkSync(hasDir +'/'+file);
+        })
+
+        return response.status(200).json({"success": `${results.length} files uploaded successfully`})  
+      } else {
+        return response.status(400).json({"error": "Failed to upload in s3"})
+      }     
 
     } catch (error) {
       return error
@@ -118,7 +161,39 @@ class ImageController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {
+  async destroy({ params, request, response}) {
+    
+    const imageInfo = await Image.findOrFail(params.id);
+    
+    const path_img = imageInfo.path_img.split('/');
+    const file = path_img[path_img.length - 1];
+
+    const bucket = imageInfo.bucket_name;
+
+    if(bucket == false || bucket == '') {
+      return response.status(400).json({"error": "Bucket not found"})
+    }   
+
+    try {      
+      const awsS3 = new S3();
+      const result = awsS3.deletePhoto(bucket, file);
+      const resp = await result.then(function(status){
+        return status
+      } ).catch(function(err){
+        console.log(err);
+        return;
+      })
+
+      if(resp){
+        await imageInfo.delete();
+        return response.status(200).json({"success": "Success to delete the file"})
+      }
+      return response.status(400).json({"error": "Failed to delete the file"})
+      
+
+    } catch (error) {
+      return error
+    }
   }
 }
 

@@ -109,6 +109,9 @@ class ProductController {
 
       await product.load('subcategory')
       await product.load('users')
+      await product.load('images')
+      await product.load('prices')
+      await product.load('personalizations')
 
       return product
 
