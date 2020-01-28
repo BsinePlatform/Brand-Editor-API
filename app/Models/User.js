@@ -35,34 +35,27 @@ class User extends Model {
     return this.hasMany('App/Models/Token')
   }
 
-  companies () {
+  /*companies () {
     // model_reference, this_column(on user), reference_column(column on model_reference) 
-    return this.hasMany('App/Models/Company', 'id', 'id_user_creator')
-  }
+    return this.belongsTo('App/Models/Company', 'id_company', 'id')
+  }*/
 
   stores () {
-    return this.hasMany('App/Models/Store', 'id', 'id_user_creator')
+    return this.belongsTo('App/Models/Store', 'id_store', 'id')
   }
   
   departments () {
-    return this.hasOne('App/Models/Department', 'id_department', 'id')
+    return this.belongsTo('App/Models/Department', 'id_department', 'id')
   }
 
-  products () {
-    return this.hasMany('App/Models/Product')
+  user_creator() {
+    return this.hasOne('App/Models/User', 'id_user_creator','id')
   }
 
+  /*
   userPermissions () {
-    return this.hasMany('App/Models/UserPermission')
-  }
-
-  reports () {
-    return this.hasMany('App/Models/Report')
-  }
-
-  campaign () {
-    return this.hasMany('App/Models/Campaign')
-  }
+    return this.hasMany('App/Models/UserPermission', 'id_user', 'id')
+  }*/
   
 
 }

@@ -87,7 +87,8 @@ class UserController {
         "nm_site",
         "path_img_profile",
         "id_user_creator",
-        "id_company",
+        "id_store",
+        "id_department",
         "nr_role",
         "active"
       ]);
@@ -116,8 +117,8 @@ class UserController {
       const user = await User.findOrFail(params.id)
   
       await user.load('stores')
-      await user.load('companies')
       await user.load('departments')
+      await user.load('user_creator')
   
       return user
       
@@ -184,7 +185,7 @@ class UserController {
         "nm_site",
         "path_img_profile",
         "id_user_creator",
-        "id_company",
+        "id_store",
         "nr_role",
         "active"
       ]);

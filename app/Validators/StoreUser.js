@@ -4,7 +4,7 @@ class StoreUser {
   get rules () {
     return {
       nm_username: 'required',
-      nm_email: 'required|email|unique:users',
+      nm_email: 'required|email|unique:users,nm_email',
       nm_password: 'required',
       nr_document: 'required|min:9'
     }
