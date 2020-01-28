@@ -88,6 +88,9 @@ Route.resource('products', 'ProductController').validator(new Map([
 Route.post('products/:id/images', 'ImageController.store')
   .middleware('auth')
 
+Route.delete('products/:id/images', 'ImageController.destroy')
+  .middleware('auth')
+
 Route.resource('personalizations', 'PersonalizationController').validator(new Map([
   [['personalizations.store'], ['StorePersonalization']],
   [['personalizations.update'], ['UpdatePersonalization']]
