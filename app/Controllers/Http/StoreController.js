@@ -2,6 +2,9 @@
 
 const Store = use('App/Models/Store');
 const FormatNumber = require('../../utils/formatNumber');
+const userBucket = require('../../utils/getBucket');
+const S3 = require('../../Infra/aws/s3/s3');
+const FormatBucket = require('../../utils/formatBucketS3Name');
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -51,7 +54,7 @@ class StoreController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {
+  async store({ request, response, auth }) {
 
     const data = request.only([
       "nm_corporate_name",
@@ -103,20 +106,31 @@ class StoreController {
       "id_company",
       "id_store_customization",
       "id_user_creator",
+      "bucket_name",
       "active"
     ])
 
     data['nr_cnpj'] = FormatNumber(data['nr_cnpj'])
+    const bucket = await userBucket(auth.user.id)
 
+    if(bucket == false || bucket == '') {
+      return response.status(400).json({"error": "Bucket not found"})
+    } 
+
+    const awsS3 = new S3();
+
+    const folder = FormatBucket(data['nm_corporate_name'])
+    
+    awsS3.createAlbum(bucket, folder)    
+    
+    data['bucket_name'] = bucket +'/'+ folder
+    
     try {
       const store = await Store.create(data)
       return store
     } catch (error) {
       return error
     }
-
-
-
 
   }
 
@@ -221,6 +235,7 @@ class StoreController {
       ])
 
       data['nr_cnpj'] = FormatNumber(data['nr_cnpj'])
+      
 
       store.merge(data)
       await store.save()

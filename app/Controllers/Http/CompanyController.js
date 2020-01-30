@@ -109,12 +109,12 @@ class CompanyController {
       ])
 
       data['nr_cnpj'] = FormatNumber(data['nr_cnpj'])
-      data['bucket_name'] = FormatBucket(data['nm_corporate_name'], data['nr_cnpj']);
+      data['bucket_name'] = FormatBucket(data['nm_corporate_name']) + data['nr_cnpj'];
       const company = await Company.create(data);
 
       if (company) {
         const newBucket = new AwsS3();
-        const resp = newBucket.createBucketInS3(data['bucket_name']);
+        newBucket.createBucketInS3(data['bucket_name']);
       }
 
       return company;
