@@ -104,7 +104,6 @@ class StoreController {
       "nm_site",
       "path_img_profile",
       "id_company",
-      "id_store_customization",
       "id_user_creator",
       "bucket_name",
       "active"
@@ -229,7 +228,6 @@ class StoreController {
         "nm_site",
         "path_img_profile",
         "id_company",
-        "id_store_customization",
         "id_user_creator",
         "active"
       ])
