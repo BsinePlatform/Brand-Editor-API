@@ -1,6 +1,7 @@
 'use strict'
 
-const Gallery = use('App/Models/Gallery')
+const Gallery = use('App/Models/Gallery');
+const S3 = require('../../Infra/aws/s3/s3');
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -53,7 +54,8 @@ class GalleryController {
     try {
       const data = request.only([
         "id_user_creator",
-        "nm_gallery"
+        "nm_gallery",
+        "path_s3"
       ])
 
       const gallery = await Gallery.create(data)
@@ -109,7 +111,8 @@ class GalleryController {
       const gallery = await Gallery.findOrFail(params.id);
       const data = request.only([
         "id_user_creator",
-        "nm_gallery"
+        "nm_gallery",
+        "path_s3"
       ])
 
       gallery.merge(data);
