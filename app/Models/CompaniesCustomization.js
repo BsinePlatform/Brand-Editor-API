@@ -7,7 +7,7 @@ class CompaniesCustomization extends Model {
 
     company () {
         // model_reference, this_column(on user), reference_column(column on model_reference) 
-        return this.belongsTo('App/Models/Company', 'id', 'id_company_customization')
+        return this.belongsTo('App/Models/Company', 'id_company', 'id')
     }
 
     user () {

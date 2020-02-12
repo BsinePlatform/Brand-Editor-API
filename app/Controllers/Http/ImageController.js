@@ -3,8 +3,7 @@
 const Image = use('App/Models/Image');
 const Product = use('App/Models/Product');
 const Helpers = use('Helpers');
-const GenerateRandomName = require('../../utils/generateRandomName'); 
-const userBucket = require('../../utils/getBucket');
+const { generateRandomName, getBucket } = require('../../utils/utils');
 const S3 = require('../../Infra/aws/s3/s3');
 const fs = require('fs');
 
@@ -51,11 +50,11 @@ class ImageController {
   async store({ request, response, params, auth }) {
     const product = await Product.findOrFail(params.id);
 
-    const bucket = await userBucket(auth.user.id);
+    const bucket = await getBucket(auth.user.id);
 
-    if(bucket == false || bucket == '') {
-      return response.status(400).json({"error": "Bucket not found"})
-    }    
+    if (bucket == false || bucket == '') {
+      return response.status(400).json({ "error": "Bucket not found" })
+    }
 
     try {
 
@@ -64,18 +63,18 @@ class ImageController {
         size: '2mb'
       });
 
-      var hasDir = './tmp/uploads/'+auth.user.id;
+      var hasDir = './tmp/uploads/' + auth.user.id;
 
-      if (!fs.existsSync(hasDir)){
+      if (!fs.existsSync(hasDir)) {
         fs.mkdirSync(hasDir, { recursive: true }, (err) => {
-          if(err) {
+          if (err) {
             return err
           }
         });
-      }      
+      }
 
       await images.moveAll(hasDir, file => ({
-        name: GenerateRandomName()+'.'+file.extname
+        name: generateRandomName() + '.' + file.extname
       }))
 
 
@@ -85,34 +84,23 @@ class ImageController {
 
       const awsS3 = new S3();
 
-      let results = '';
-      const selects = fs.readdirSync(hasDir).map(file => awsS3.uploadFileS3(bucket, hasDir+'/'+file));
-      await Promise.all(
-        selects)
-        .then(result => results = result)
-        .catch( e => console.log(e)
-        );
-      
-
-      if(results[0] !== undefined ) { 
-        results.map(result => {
+      const results = fs.readdirSync(hasDir).map(file => awsS3.uploadFileS3(bucket, hasDir + '/' + file))
+      await Promise.all(results).then(function(res) {
+        res.map(path_file => {
           try {
-            product.images().create({ path_img: result, bucket_name: bucket })  
+            product.images().create({ path_img: path_file, bucket_name: bucket })  
           } catch (error) {
             return error
           }
-          
-        });
-
-        fs.readdirSync(hasDir).map(file => {
-          fs.unlinkSync(hasDir +'/'+file);
         })
-
-        return response.status(200).json({"success": `${results.length} files uploaded successfully`})  
-      } else {
-        return response.status(400).json({"error": "Failed to upload in s3"})
-      }     
-
+      }).catch(err => console.log('erro aqui' + err))
+      
+      fs.readdirSync(hasDir).map(file => {
+        fs.unlinkSync(hasDir +'/'+file);
+      })      
+      
+      return response.status(200).json({"success": `${results.length} files uploaded successfully`})  
+      
     } catch (error) {
       return error
     }
@@ -161,35 +149,35 @@ class ImageController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response}) {
-    
+  async destroy({ params, request, response }) {
+
     const imageInfo = await Image.findOrFail(params.id);
-    
+
     const path_img = imageInfo.path_img.split('/');
     const file = path_img[path_img.length - 1];
 
     const bucket = imageInfo.bucket_name;
 
-    if(bucket == false || bucket == '') {
-      return response.status(400).json({"error": "Bucket not found"})
-    }   
+    if (bucket == false || bucket == '') {
+      return response.status(400).json({ "error": "Bucket not found" })
+    }
 
-    try {      
+    try {
       const awsS3 = new S3();
       const result = awsS3.deletePhoto(bucket, file);
-      const resp = await result.then(function(status){
+      const resp = await result.then(function (status) {
         return status
-      } ).catch(function(err){
+      }).catch(function (err) {
         console.log(err);
         return;
       })
 
-      if(resp){
+      if (resp) {
         await imageInfo.delete();
-        return response.status(200).json({"success": "Success to delete the file"})
+        return response.status(200).json({ "success": "Success to delete the file" })
       }
-      return response.status(400).json({"error": "Failed to delete the file"})
-      
+      return response.status(400).json({ "error": "Failed to delete the file" })
+
 
     } catch (error) {
       return error
