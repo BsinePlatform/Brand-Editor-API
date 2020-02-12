@@ -17,20 +17,23 @@ class AwsS3 {
     }
 
     // Create Bucket in S3
-    createBucketInS3(bucketName) {
+    async createBucketInS3(bucketName) {
         var bucketParams = {
             Bucket: bucketName,
-            ACL: 'public-read'
+            ACL: 'private'
         };
 
         // call S3 to create the bucket
-        s3.createBucket(bucketParams, function (err, data) {
-            if (err) {
-                return err;
-            } else {
-                console.log(data.Location);
-            }
-        });
+        return new Promise((resolve, reject) => { 
+            s3.createBucket(bucketParams,  function (err, data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data.Location.replace('/', ''));
+                }
+            });
+        })  
+       
     }
 
     // Upload file in Bucket
@@ -56,7 +59,7 @@ class AwsS3 {
           });
     }
 
-    createAlbum(bucketName, albumName) {
+    async createAlbum(bucketName, albumName) {
         albumName = albumName.trim();
         if (!albumName) {
             console.log("Album names must contain at least one non-space character.");
@@ -72,20 +75,22 @@ class AwsS3 {
             Key: albumKey
         };
 
-        s3.headObject(params, function (err, data) {
-            if (!err) {
-                console.log("Album already exists.");
-            }
-            if (err.code !== "NotFound") {
-                console.log("There was an error creating your album: " + err.message);
-            }
-            s3.putObject(params, function (err, data) {
-                if (err) {
-                    console.log("There was an error creating your album: " + err.message);
+        return new Promise((resolve, reject) => { 
+            s3.headObject(params, function (err, data) {
+                if (!err) {
+                    reject(err);
                 }
-                console.log("Successfully created album.")
+                if (err.code !== "NotFound") {
+                    reject(err.messageerr);
+                }
+                s3.putObject(params, function (err, data) {
+                    if (err) {
+                        reject(err.message);
+                    }
+                    resolve(data)
+                });
             });
-        });
+        })  
     }
 
     deletePhoto(bucketName, photoKey) {

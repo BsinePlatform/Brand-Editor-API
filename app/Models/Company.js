@@ -15,15 +15,19 @@ class Company extends Model {
     }
 
     company_customization () {
-        return this.hasOne('App/Models/CompaniesCustomization', 'id_company_customization', 'id')
+        return this.hasOne('App/Models/CompaniesCustomization', 'id', 'id_company')
     }
 
     categories () {
-        return this.hasMany('App/Models/Category')
+        return this.hasMany('App/Models/Category', 'id', 'id_company')
     }
 
     campaign(){
-        return this.hasMany('App/Models/Campaign')
+        return this.hasMany('App/Models/Campaign', 'id', 'id_company')
+    }
+
+    galleries() {
+        return this.hasMany('App/Models/Gallery', 'id', 'id_company')
     }
 
 }

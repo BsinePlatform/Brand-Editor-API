@@ -1,9 +1,10 @@
 'use strict'
 
-const Company = use('App/Models/Company')
+const Company = use('App/Models/Company');
+const Gallery = use('App/Models/Gallery');
 const AwsS3 = require('../../Infra/aws/s3/s3');
-const FormatNumber = require('../../utils/formatNumber');
-const FormatBucket = require('../../utils/formatBucketS3Name');
+const {generateRandomName, formatNumber, formatBucketS3Name} = require('../../utils/utils'); 
+const fs = require('fs');
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -53,7 +54,7 @@ class CompanyController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store({ request, response }) {
+  async store({ request, response, auth }) {
     try {
       const data = request.only([
         "nm_corporate_name",
@@ -104,21 +105,72 @@ class CompanyController {
         "path_img_profile",
         "bucket_name",
         "id_user_creator",
-        "id_company_customization",
         "active"
-      ])
+      ]) 
 
-      data['nr_cnpj'] = FormatNumber(data['nr_cnpj'])
-      data['bucket_name'] = FormatBucket(data['nm_corporate_name']) + data['nr_cnpj'];
-      const company = await Company.create(data);
+      // Movendo a imagem do perfil para uma pasta temporária
+      const profilePic = request.file('path_img_profile', {
+        types: ['image'],
+        size: '2mb'
+      })
 
-      if (company) {
-        const newBucket = new AwsS3();
-        newBucket.createBucketInS3(data['bucket_name']);
+      var hasDir = './tmp/uploads/profile/'+auth.user.id;
+
+      if (!fs.existsSync(hasDir)){
+        fs.mkdirSync(hasDir, { recursive: true }, (err) => {
+          if(err) {
+            return err
+          }
+        });
+      }
+    
+      await profilePic.move(hasDir, {
+        name:  generateRandomName()+'.'+profilePic.extname,
+        overwrite: true
+      })
+
+      if (!profilePic.moved()) {
+        return profilePic.error()
       }
 
-      return company;
-
+      data['nr_cnpj'] = formatNumber(data['nr_cnpj'])
+      data['bucket_name'] = formatBucketS3Name(data['nm_corporate_name']) + data['nr_cnpj'] 
+      
+      const awsS3 = new AwsS3()
+      
+      const foldersDefault = ['Imagens', 'Videos', 'Audios', 'Downloads', 'Documentos']
+      const result = awsS3.createBucketInS3(data['bucket_name'])
+      
+      result.then(function(bucketName) {
+        foldersDefault.map(folder => {
+          awsS3.createAlbum(bucketName, folder)
+        }) 
+        fs.readdirSync(hasDir).find(function(file) { 
+          if(file == profilePic.fileName) {
+            awsS3.uploadFileS3(bucketName, hasDir+'/'+file).then(function(path_file){
+              data['path_img_profile'] = path_file
+              const company = Company.create(data)
+              company.then(function(companyCreated){
+                foldersDefault.map(folder => {
+                  let dataGallery = {
+                    nm_gallery: folder,
+                    id_user_creator: auth.user.id,
+                    path_s3: bucketName + '/' + folder,
+                    id_company: companyCreated.id
+                  }
+        
+                  Gallery.create(dataGallery)
+        
+                })
+              }).catch(function(error){
+                return error
+              })
+            })
+          }
+        })
+      } ).catch(function(err) {
+        throw err
+      });
     } catch (error) {
       return error
     }
@@ -141,7 +193,10 @@ class CompanyController {
 
       await company.load('users')
       await company.load('stores')
+      await company.load('categories')
+      await company.load('campaign')
       await company.load('company_customization')
+      await company.load('galleries')
 
       return company
 
@@ -223,7 +278,6 @@ class CompanyController {
         "path_img_profile",
         "bucket_name",
         "id_user_creator",
-        "id_company_customization",
         "active"
       ])
 
